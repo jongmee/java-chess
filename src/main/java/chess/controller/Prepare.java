@@ -20,7 +20,7 @@ public class Prepare implements GameState {
         ChessBoardGenerator chessBoardInitializer = new ChessBoardInitializer();
         ChessBoard chessBoard = new ChessBoard(chessBoardInitializer.create());
         outputView.printChessBoard(chessBoard);
-        return new Run(chessBoard, Turn.from(Side.WHITE));
+        return Run.initializeWithFirstTurn(chessBoard);
     }
 
     private GameCommand getFirstGameCommand(InputView inputView) {

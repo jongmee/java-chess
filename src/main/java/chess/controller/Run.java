@@ -3,6 +3,7 @@ package chess.controller;
 import chess.model.board.ChessBoard;
 import chess.model.evaluation.PositionEvaluation;
 import chess.model.board.Turn;
+import chess.model.piece.Side;
 import chess.model.position.Position;
 import chess.view.input.GameArguments;
 import chess.view.input.GameCommand;
@@ -17,6 +18,10 @@ public class Run implements GameState {
     public Run(ChessBoard chessBoard, Turn turn) {
         this.chessBoard = chessBoard;
         this.turn = turn;
+    }
+
+    public static Run initializeWithFirstTurn(ChessBoard chessBoard) {
+        return new Run(chessBoard, Turn.from(Side.WHITE));
     }
 
     @Override
