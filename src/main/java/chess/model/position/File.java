@@ -41,4 +41,8 @@ public enum File {
     private boolean hasNextCoordinate(File file, int offset) {
         return file.coordinate == this.coordinate + offset;
     }
+
+    public String getName() {
+        return name;
+    }
 }

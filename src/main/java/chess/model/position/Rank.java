@@ -43,4 +43,8 @@ public enum Rank {
     public Difference minus(Rank other) {
         return Difference.from(this.coordinate - other.coordinate);
     }
+
+    public int getCoordinate() {
+        return coordinate;
+    }
 }
