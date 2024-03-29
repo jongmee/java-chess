@@ -2,9 +2,9 @@ package chess.model.piece;
 
 import chess.model.evaluation.PawnValue;
 import chess.model.evaluation.PieceValue;
-import chess.model.position.Position;
 import chess.model.position.Movement;
 import chess.model.position.Path;
+import chess.model.position.Position;
 import chess.model.position.Rank;
 
 import java.util.Map;
@@ -19,8 +19,6 @@ public class Pawn extends Piece {
 
     private static final int DISPLACEMENT = 1;
     private static final int INITIAL_SPECIAL_DISPLACEMENT = 2;
-    private static final double VALUE = 1;
-    private static final double UNFAVORABLE_VALUE = 0.5;
 
     private Pawn(Side side) {
         super(side);
@@ -82,6 +80,6 @@ public class Pawn extends Piece {
 
     @Override
     public PieceValue value() {
-        return new PawnValue(VALUE, UNFAVORABLE_VALUE);
+        return PawnValue.INSTANCE;
     }
 }

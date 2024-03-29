@@ -2,9 +2,9 @@ package chess.model.piece;
 
 import chess.model.evaluation.CommonValue;
 import chess.model.evaluation.PieceValue;
-import chess.model.position.Position;
 import chess.model.position.Movement;
 import chess.model.position.Path;
+import chess.model.position.Position;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,7 +16,7 @@ public class Rook extends Piece {
             .stream()
             .collect(Collectors.toMap(identity(), Rook::new));
 
-    private static final double VALUE = 5;
+    private static final PieceValue VALUE = CommonValue.from(5);
 
     private Rook(Side side) {
         super(side);
@@ -37,6 +37,6 @@ public class Rook extends Piece {
 
     @Override
     public PieceValue value() {
-        return new CommonValue(VALUE);
+        return VALUE;
     }
 }

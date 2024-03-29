@@ -1,7 +1,7 @@
 package chess.model.evaluation;
 
-import chess.model.position.Position;
 import chess.model.position.File;
+import chess.model.position.Position;
 
 import java.util.List;
 import java.util.Map;
@@ -10,14 +10,12 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
 public class PawnValue implements PieceValue {
-    public static final int UNFAVORABLE_POINT_THRESHOLD = 1;
+    private static final double POINT = 1;
+    private static final double UNFAVORABLE_POINT = 0.5;
+    private static final int UNFAVORABLE_POINT_THRESHOLD = 1;
+    public static final PawnValue INSTANCE = new PawnValue();
 
-    private final double point;
-    private final double unfavorablePoint;
-
-    public PawnValue(double point, double unfavorablePoint) {
-        this.point = point;
-        this.unfavorablePoint = unfavorablePoint;
+    private PawnValue() {
     }
 
     @Override
@@ -33,8 +31,8 @@ public class PawnValue implements PieceValue {
 
     private double pointOfCount(long count) {
         if (count > UNFAVORABLE_POINT_THRESHOLD) {
-            return count * unfavorablePoint;
+            return count * UNFAVORABLE_POINT;
         }
-        return count * point;
+        return count * POINT;
     }
 }

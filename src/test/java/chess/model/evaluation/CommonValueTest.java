@@ -16,7 +16,7 @@ class CommonValueTest {
     @DisplayName("기물 가치에 따라 점수를 계산한다.")
     void calculateScore() {
         // given
-        PieceValue pieceValue = new CommonValue(5);
+        PieceValue pieceValue = CommonValue.from(5);
         List<Position> positions = List.of(
                 Position.of(File.A, Rank.FOUR),
                 Position.of(File.A, Rank.TWO),

@@ -2,9 +2,9 @@ package chess.model.piece;
 
 import chess.model.evaluation.CommonValue;
 import chess.model.evaluation.PieceValue;
-import chess.model.position.Position;
 import chess.model.position.Movement;
 import chess.model.position.Path;
+import chess.model.position.Position;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class Knight extends Piece {
             .stream()
             .collect(toMap(identity(), Knight::new));
 
-    private static final double VALUE = 2.5;
+    private static final PieceValue VALUE = CommonValue.from(2.5);
 
     private static final int DISPLACEMENT = 3;
 
@@ -47,6 +47,6 @@ public class Knight extends Piece {
 
     @Override
     public PieceValue value() {
-        return new CommonValue(VALUE);
+        return VALUE;
     }
 }

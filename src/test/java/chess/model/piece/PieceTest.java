@@ -23,7 +23,7 @@ class PieceTest {
 
             @Override
             public PieceValue value() {
-                return new CommonValue(0);
+                return CommonValue.from(0);
             }
         };
         Piece other = new Piece(Side.BLACK) {
@@ -34,7 +34,7 @@ class PieceTest {
 
             @Override
             public PieceValue value() {
-                return new CommonValue(0);
+                return CommonValue.from(0);
             }
         };
 
