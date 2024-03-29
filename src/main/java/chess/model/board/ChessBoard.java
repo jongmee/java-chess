@@ -35,7 +35,7 @@ public class ChessBoard {
         if (sourcePiece.equals(Blank.INSTANCE)) {
             throw new IllegalArgumentException("소스 위치에 기물이 존재하지 않습니다.");
         }
-        if (turn.isNotCorrect(sourcePiece)) {
+        if (turn.doesNotMatch(sourcePiece)) {
             throw new IllegalArgumentException("올바른 게임 차례가 아닙니다.");
         }
     }

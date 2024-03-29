@@ -27,7 +27,7 @@ public class Turn {
         return Turn.from(side.getOppositeSide());
     }
 
-    public boolean isNotCorrect(Piece piece) {
+    public boolean doesNotMatch(Piece piece) {
         return !piece.isSameSide(side);
     }
 }
