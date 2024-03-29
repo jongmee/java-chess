@@ -16,6 +16,8 @@ public class Rook extends Piece {
             .stream()
             .collect(Collectors.toMap(identity(), Rook::new));
 
+    private static final double VALUE = 5;
+
     private Rook(Side side) {
         super(side);
     }
@@ -35,6 +37,6 @@ public class Rook extends Piece {
 
     @Override
     public PieceValue value() {
-        return new CommonValue(5);
+        return new CommonValue(VALUE);
     }
 }

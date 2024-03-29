@@ -16,6 +16,8 @@ public class Bishop extends Piece {
             .stream()
             .collect(toMap(identity(), Bishop::new));
 
+    private static final double VALUE = 3;
+
     private Bishop(Side side) {
         super(side);
     }
@@ -35,6 +37,6 @@ public class Bishop extends Piece {
 
     @Override
     public PieceValue value() {
-        return new CommonValue(3);
+        return new CommonValue(VALUE);
     }
 }

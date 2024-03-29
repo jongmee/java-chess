@@ -16,6 +16,8 @@ public class Queen extends Piece {
             .stream()
             .collect(toMap(identity(), Queen::new));
 
+    private static final double VALUE = 9;
+
     private Queen(Side side) {
         super(side);
     }
@@ -39,6 +41,6 @@ public class Queen extends Piece {
 
     @Override
     public PieceValue value() {
-        return new CommonValue(9);
+        return new CommonValue(VALUE);
     }
 }

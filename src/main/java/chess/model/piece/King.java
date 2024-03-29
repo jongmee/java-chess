@@ -17,6 +17,8 @@ public class King extends Piece {
             .stream()
             .collect(toMap(identity(), King::new));
 
+    private static final double VALUE = 0;
+
     private static final int DISPLACEMENT = 1;
 
     private King(Side side) {
@@ -38,6 +40,6 @@ public class King extends Piece {
 
     @Override
     public PieceValue value() {
-        return new CommonValue(0);
+        return new CommonValue(VALUE);
     }
 }

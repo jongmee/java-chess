@@ -19,6 +19,8 @@ public class Pawn extends Piece {
 
     private static final int DISPLACEMENT = 1;
     private static final int INITIAL_SPECIAL_DISPLACEMENT = 2;
+    private static final double VALUE = 1;
+    private static final double UNFAVORABLE_VALUE = 0.5;
 
     private Pawn(Side side) {
         super(side);
@@ -80,6 +82,6 @@ public class Pawn extends Piece {
 
     @Override
     public PieceValue value() {
-        return new PawnValue(1, 0.5);
+        return new PawnValue(VALUE, UNFAVORABLE_VALUE);
     }
 }
