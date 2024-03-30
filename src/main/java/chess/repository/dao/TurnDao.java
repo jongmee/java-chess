@@ -1,6 +1,7 @@
 package chess.repository.dao;
 
 import chess.model.board.Turn;
+import chess.repository.utility.MySqlConnector;
 import chess.repository.utility.ParameterBinder;
 import chess.repository.utility.ResultSetMapper;
 import chess.repository.utility.StatementExecutor;
@@ -8,7 +9,11 @@ import chess.repository.utility.StatementExecutor;
 import java.util.Optional;
 
 public class TurnDao {
-    private static final StatementExecutor statementExecutor = StatementExecutor.INSTANCE;
+    private final StatementExecutor statementExecutor;
+
+    public TurnDao(MySqlConnector mySqlConnector) {
+        this.statementExecutor = new StatementExecutor(mySqlConnector);
+    }
 
     public void save(long chessBoardId, Turn turn) {
         var query = "insert into turn(side, chess_board_id) values(?, ?)";

@@ -7,13 +7,13 @@ import java.sql.Connection;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class MySqlConnectionTest {
+class MySqlConnectorTest {
 
     @Test
     @DisplayName("MySQL Connection을 얻는다.")
     void getConnection() {
         // given
-        MySqlConnection connection = MySqlConnection.INSTANCE;
+        MySqlConnector connection = MySqlConnector.PRODUCT_CONNECTION;
 
         // when
         Connection connected = connection.getConnection();

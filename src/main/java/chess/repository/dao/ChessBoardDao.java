@@ -7,6 +7,7 @@ import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
 import chess.repository.dto.GameResultDto;
+import chess.repository.utility.MySqlConnector;
 import chess.repository.utility.ParameterBinder;
 import chess.repository.utility.ResultSetMapper;
 import chess.repository.utility.StatementExecutor;
@@ -16,7 +17,11 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class ChessBoardDao {
-    private static final StatementExecutor statementExecutor = StatementExecutor.INSTANCE;
+    private final StatementExecutor statementExecutor;
+
+    public ChessBoardDao(MySqlConnector mySqlConnector) {
+        this.statementExecutor = new StatementExecutor(mySqlConnector);
+    }
 
     public Optional<Long> save() {
         var query = "insert into chess_board(game_result) values(?)";

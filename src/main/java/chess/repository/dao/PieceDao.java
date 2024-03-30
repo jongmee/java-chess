@@ -2,13 +2,18 @@ package chess.repository.dao;
 
 import chess.model.piece.Piece;
 import chess.model.position.Position;
+import chess.repository.utility.MySqlConnector;
 import chess.repository.utility.ParameterBinder;
 import chess.repository.utility.StatementExecutor;
 
 import java.util.Map;
 
 public class PieceDao {
-    private static final StatementExecutor statementExecutor = StatementExecutor.INSTANCE;
+    private final StatementExecutor statementExecutor;
+
+    public PieceDao(MySqlConnector mySqlConnector) {
+        this.statementExecutor = new StatementExecutor(mySqlConnector);
+    }
 
     public void saveAll(Map<Position, Piece> piecesWithPosition, long chessBoardId) {
         var query = "insert into piece(file, `rank`, type, chess_board_id, side) values (?, ?, ?, ?, ?)";

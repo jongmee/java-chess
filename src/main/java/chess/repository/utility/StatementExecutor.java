@@ -5,15 +5,14 @@ import chess.repository.exception.DataAccessException;
 import java.sql.SQLException;
 
 public class StatementExecutor {
-    public static final StatementExecutor INSTANCE = new StatementExecutor();
+    private final MySqlConnector mySqlConnector;
 
-    private static final MySqlConnection mySqlConnection = MySqlConnection.INSTANCE;
-
-    private StatementExecutor() {
+    public StatementExecutor(MySqlConnector mySqlConnector) {
+        this.mySqlConnector = mySqlConnector;
     }
 
     public void executeUpdate(String query, ParameterBinder parameterBinder) {
-        try (var connection = mySqlConnection.getConnection();
+        try (var connection = mySqlConnector.getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             parameterBinder.bind(preparedStatement);
             preparedStatement.executeUpdate();
@@ -23,7 +22,7 @@ public class StatementExecutor {
     }
 
     public <T> T executeUpdate(String query, String[] keys, ParameterBinder parameterBinder, ResultSetMapper<T> resultSetMapper) {
-        try (var connection = mySqlConnection.getConnection();
+        try (var connection = mySqlConnector.getConnection();
              var preparedStatement = connection.prepareStatement(query, keys)) {
             parameterBinder.bind(preparedStatement);
             preparedStatement.executeUpdate();
@@ -35,7 +34,7 @@ public class StatementExecutor {
     }
 
     public void executeBatch(String query, ParameterBinder parameterBinder) {
-        try (var connection = mySqlConnection.getConnection();
+        try (var connection = mySqlConnector.getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             parameterBinder.bind(preparedStatement);
             preparedStatement.executeBatch();
@@ -45,7 +44,7 @@ public class StatementExecutor {
     }
 
     public <T> T executeQuery(String query, ParameterBinder parameterBinder, ResultSetMapper<T> resultSetMapper) {
-        try (var connection = mySqlConnection.getConnection();
+        try (var connection = mySqlConnector.getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             parameterBinder.bind(preparedStatement);
             var resultSet = preparedStatement.executeQuery();

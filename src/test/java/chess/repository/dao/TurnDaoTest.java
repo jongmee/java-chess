@@ -3,6 +3,7 @@ package chess.repository.dao;
 import chess.model.board.Turn;
 import chess.model.piece.Side;
 import chess.repository.DataBaseCleaner;
+import chess.repository.utility.MySqlConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class TurnDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final TurnDao turnDao = new TurnDao();
-    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
+    private final TurnDao turnDao = new TurnDao(MySqlConnector.TEST_CONNECTION);
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao(MySqlConnector.TEST_CONNECTION);
 
     @BeforeEach
     void setUp() {

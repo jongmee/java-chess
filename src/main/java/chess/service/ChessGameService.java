@@ -14,6 +14,7 @@ import chess.repository.dao.PieceDao;
 import chess.repository.dao.TurnDao;
 import chess.repository.dto.GameResultDto;
 import chess.repository.exception.DataAccessException;
+import chess.repository.utility.MySqlConnector;
 import chess.view.input.MoveArguments;
 
 import java.util.List;
@@ -21,9 +22,15 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ChessGameService {
-    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
-    private final PieceDao pieceDao = new PieceDao();
-    private final TurnDao turnDao = new TurnDao();
+    private final ChessBoardDao chessBoardDao;
+    private final PieceDao pieceDao;
+    private final TurnDao turnDao;
+
+    public ChessGameService(MySqlConnector mySqlConnector) {
+        this.chessBoardDao = new ChessBoardDao(mySqlConnector);
+        this.pieceDao = new PieceDao(mySqlConnector);
+        this.turnDao = new TurnDao(mySqlConnector);
+    }
 
     public ChessBoard createOrGetInitialChessBoard() {
         Optional<ChessBoard> chessBoard = chessBoardDao.findLatest();

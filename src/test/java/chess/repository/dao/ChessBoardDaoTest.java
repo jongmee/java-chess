@@ -5,6 +5,7 @@ import chess.model.board.ChessBoardInitializer;
 import chess.model.evaluation.GameResult;
 import chess.repository.DataBaseCleaner;
 import chess.repository.dto.GameResultDto;
+import chess.repository.utility.MySqlConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ChessBoardDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
-    private final PieceDao pieceDao = new PieceDao();
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao(MySqlConnector.TEST_CONNECTION);
+    private final PieceDao pieceDao = new PieceDao(MySqlConnector.TEST_CONNECTION);
 
     @BeforeEach
     void setUp() {
