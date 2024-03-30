@@ -28,13 +28,13 @@ class PieceDaoTest {
 
     @Test
     @DisplayName("체스 보드의 기물들을 저장한다.")
-    void createAll() {
+    void saveAll() {
         // given
         Map<Position, Piece> initialChessBoard = new ChessBoardInitializer().create();
-        int chessBoardId = chessBoardDao.create().get();
+        int chessBoardId = chessBoardDao.save().get();
 
         // when
-        pieceDao.createAll(initialChessBoard, chessBoardId);
+        pieceDao.saveAll(initialChessBoard, chessBoardId);
 
         // then
         ChessBoard chessBoard = chessBoardDao.findById(chessBoardId);
@@ -45,9 +45,9 @@ class PieceDaoTest {
     @DisplayName("특정 위치의 기물을 교체한다.")
     void update() {
         // given
-        int chessBoardId = chessBoardDao.create().get();
+        int chessBoardId = chessBoardDao.save().get();
         Map<Position, Piece> initialChessBoard = new ChessBoardInitializer().create();
-        pieceDao.createAll(initialChessBoard, chessBoardId);
+        pieceDao.saveAll(initialChessBoard, chessBoardId);
 
         Position position = Position.of(File.A, Rank.FIVE);
         Piece newPiece = Knight.from(Side.WHITE);

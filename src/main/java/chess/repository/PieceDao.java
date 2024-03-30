@@ -13,7 +13,7 @@ public class PieceDao {
     private PieceDao() {
     }
 
-    public void createAll(Map<Position, Piece> board, int chessBoardId) {
+    public void saveAll(Map<Position, Piece> board, int chessBoardId) {
         var query = "insert into piece(file, `rank`, type, chess_board_id, side) values (?, ?, ?, ?, ?)";
         ParameterBinder parameterBinder = preparedStatement -> {
             for (var entry : board.entrySet()) {
@@ -21,9 +21,9 @@ public class PieceDao {
                 var pieceMapper = PieceMapper.from(entry.getValue());
                 preparedStatement.setString(1, position.getFile().getName());
                 preparedStatement.setInt(2, position.getRank().getCoordinate());
-                preparedStatement.setString(3, pieceMapper.type());
+                preparedStatement.setString(3, pieceMapper.typeAttribute());
                 preparedStatement.setInt(4, chessBoardId);
-                preparedStatement.setString(5, pieceMapper.side());
+                preparedStatement.setString(5, pieceMapper.sideAttribute());
                 preparedStatement.addBatch();
                 preparedStatement.clearParameters();
             }
@@ -36,8 +36,8 @@ public class PieceDao {
         var query = "update piece set type = ?, side = ? where file = ? and `rank` = ? and chess_board_id = ?";
         var pieceMapper = PieceMapper.from(piece);
         ParameterBinder parameterBinder = preparedStatement -> {
-            preparedStatement.setString(1, pieceMapper.type());
-            preparedStatement.setString(2, pieceMapper.side());
+            preparedStatement.setString(1, pieceMapper.typeAttribute());
+            preparedStatement.setString(2, pieceMapper.sideAttribute());
             preparedStatement.setString(3, position.getFile().getName());
             preparedStatement.setInt(4, position.getRank().getCoordinate());
             preparedStatement.setInt(5, chessBoardId);

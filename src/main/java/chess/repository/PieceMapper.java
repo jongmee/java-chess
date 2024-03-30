@@ -19,13 +19,13 @@ public enum PieceMapper {
     BLACK_ROOK("Rook", "BLACK", Rook.from(Side.BLACK)),
     BLANK("Blank", "NONE", Blank.INSTANCE);
 
-    private final String type;
-    private final String side;
+    private final String typeAttribute;
+    private final String sideAttribute;
     private final Piece piece;
 
-    PieceMapper(String type, String side, Piece piece) {
-        this.type = type;
-        this.side = side;
+    PieceMapper(String typeAttribute, String sideAttribute, Piece piece) {
+        this.typeAttribute = typeAttribute;
+        this.sideAttribute = sideAttribute;
         this.piece = piece;
     }
 
@@ -36,19 +36,19 @@ public enum PieceMapper {
                 .orElseThrow(() -> new IllegalArgumentException(""));
     }
 
-    public static Piece findPieceByTypeAndSide(String type, String side) {
+    public static Piece mapToPiece(String typeAttribute, String sideAttribute) {
         return Arrays.stream(values())
-                .filter(pieceMapper -> pieceMapper.type.equals(type) && pieceMapper.side.equals(side))
+                .filter(pieceMapper -> pieceMapper.typeAttribute.equals(typeAttribute) && pieceMapper.sideAttribute.equals(sideAttribute))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(""))
                 .piece;
     }
 
-    public String type() {
-        return type;
+    public String typeAttribute() {
+        return typeAttribute;
     }
 
-    public String side() {
-        return side;
+    public String sideAttribute() {
+        return sideAttribute;
     }
 }

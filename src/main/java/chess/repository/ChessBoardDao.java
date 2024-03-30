@@ -18,7 +18,7 @@ public class ChessBoardDao {
     private ChessBoardDao() {
     }
 
-    public Optional<Integer> create() {
+    public Optional<Integer> save() {
         var query = "insert into chess_board values()";
         String[] keys = {"chess_board_id"};
         ResultSetMapper<Optional<Integer>> resultSetMapper = resultSet -> {
@@ -36,12 +36,12 @@ public class ChessBoardDao {
         ResultSetMapper<ChessBoard> resultSetMapper = resultSet -> {
             Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {
-                var file = resultSet.getString("file");
-                var rank = resultSet.getInt("rank");
-                Position position = Position.of(File.from(file), Rank.from(rank));
-                var type = resultSet.getString("type");
-                var side = resultSet.getString("side");
-                Piece piece = PieceMapper.findPieceByTypeAndSide(type, side);
+                var fileAttribute = resultSet.getString("file");
+                var rankAttribute = resultSet.getInt("rank");
+                Position position = Position.of(File.from(fileAttribute), Rank.from(rankAttribute));
+                var typeAttribute = resultSet.getString("type");
+                var sideAttribute = resultSet.getString("side");
+                Piece piece = PieceMapper.mapToPiece(typeAttribute, sideAttribute);
                 board.put(position, piece);
             }
             return new ChessBoard(board);

@@ -10,26 +10,26 @@ public enum TurnMapper {
     WHITE_TURN(Turn.from(Side.WHITE), "WHITE");
 
     private final Turn turn;
-    private final String side;
+    private final String sideAttribute;
 
-    TurnMapper(Turn turn, String side) {
+    TurnMapper(Turn turn, String sideAttribute) {
         this.turn = turn;
-        this.side = side;
+        this.sideAttribute = sideAttribute;
     }
 
-    public static Turn findTurnBySide(String side) {
+    public static Turn mapToTurn(String sideAttribute) {
         return Arrays.stream(values())
-                .filter(turnMapper -> turnMapper.side.equals(side))
+                .filter(turnMapper -> turnMapper.sideAttribute.equals(sideAttribute))
                 .findFirst()
                 .orElseThrow()
                 .turn;
     }
 
-    public static String findSideByTurn(Turn turn) {
+    public static String mapToSideAttribute(Turn turn) {
         return Arrays.stream(values())
                 .filter(turnMapper -> turnMapper.turn.equals(turn))
                 .findFirst()
                 .orElseThrow()
-                .side;
+                .sideAttribute;
     }
 }

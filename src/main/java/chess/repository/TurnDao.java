@@ -14,7 +14,7 @@ public class TurnDao {
 
     public void save(int chessBoardId, Turn turn) {
         var query = "insert into turn(side, chess_board_id) values(?, ?)";
-        var side = TurnMapper.findSideByTurn(turn);
+        var side = TurnMapper.mapToSideAttribute(turn);
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, side);
             preparedStatement.setInt(2, chessBoardId);
@@ -27,8 +27,8 @@ public class TurnDao {
         ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setInt(1, chessBoardId);
         ResultSetMapper<Optional<Turn>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
-                var side = resultSet.getString("side");
-                Turn turn = TurnMapper.findTurnBySide(side);
+                var sideAttribute = resultSet.getString("side");
+                Turn turn = TurnMapper.mapToTurn(sideAttribute);
                 return Optional.of(turn);
             }
             return Optional.empty();

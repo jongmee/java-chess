@@ -20,10 +20,10 @@ class ChessBoardDaoTest {
     }
 
     @Test
-    @DisplayName("새로운 체스 보드를 생성한다.")
-    void create() {
+    @DisplayName("새로운 체스 보드를 저장한다.")
+    void save() {
         // when
-        Optional<Integer> chessBoardId = chessBoardDao.create();
+        Optional<Integer> chessBoardId = chessBoardDao.save();
 
         // then
         assertThat(chessBoardId).isNotEmpty();
@@ -33,9 +33,9 @@ class ChessBoardDaoTest {
     @DisplayName("체스 보드를 id로 조회한다.")
     void findById() {
         // given
-        int chessBoardId = chessBoardDao.create().get();
+        int chessBoardId = chessBoardDao.save().get();
         PieceDao pieceDao = PieceDao.INSTANCE;
-        pieceDao.createAll(new ChessBoardInitializer().create(), chessBoardId);
+        pieceDao.saveAll(new ChessBoardInitializer().create(), chessBoardId);
 
         // when
         ChessBoard chessBoard = chessBoardDao.findById(chessBoardId);
