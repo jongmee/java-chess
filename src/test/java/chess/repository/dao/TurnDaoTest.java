@@ -35,4 +35,20 @@ class TurnDaoTest {
         Optional<Turn> savedTurn = turnDao.findByChessBoardId(chessBoardId);
         assertThat(savedTurn).contains(turn);
     }
+
+    @Test
+    @DisplayName("체스 게임의 차례를 삭제한다.")
+    void delete() {
+        // given
+        long chessBoardId = chessBoardDao.save().get();
+        Turn turn = Turn.from(Side.WHITE);
+        turnDao.save(chessBoardId, turn);
+
+        // when
+        turnDao.delete(chessBoardId);
+
+        // then
+        Optional<Turn> savedTurn = turnDao.findByChessBoardId(chessBoardId);
+        assertThat(savedTurn).isEmpty();
+    }
 }

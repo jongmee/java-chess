@@ -25,6 +25,12 @@ public class TurnDao {
         statementExecutor.executeUpdate(query, parameterBinder);
     }
 
+    public void delete(long chessBoardId) {
+        var query = "delete from turn where chess_board_id = ?";
+        ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
+        statementExecutor.executeUpdate(query, parameterBinder);
+    }
+
     public Optional<Turn> findByChessBoardId(long chessBoardId) {
         var query = "select * from turn where chess_board_id = ?";
         ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);

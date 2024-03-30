@@ -65,6 +65,7 @@ public class ChessGameService {
     public Turn saveNextTurn(ChessBoard chessBoard, Turn turn) {
         long chessBoardId = chessBoard.getId();
         Turn nextTurn = turn.getNextTurn();
+        turnDao.delete(chessBoardId);
         turnDao.save(chessBoardId, nextTurn);
         return nextTurn;
     }
