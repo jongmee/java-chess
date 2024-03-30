@@ -1,5 +1,6 @@
 package chess.model.board;
 
+import chess.model.evaluation.GameResult;
 import chess.model.piece.*;
 import chess.model.position.File;
 import chess.model.position.Position;
@@ -141,5 +142,41 @@ class ChessBoardTest {
 
         // then
         assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("게임 결과를 결정한다.")
+    void determineGameResult() {
+        // given
+        ChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.WHITE_FOOLS_MATE_LOSE);
+        ChessBoard customChessBoard = new ChessBoard(1, chessBoardGenerator.create());
+
+        // when
+        GameResult gameResult = customChessBoard.determineGameResult();
+
+        // then
+        assertThat(gameResult).isEqualTo(GameResult.BLACK_WIN);
+    }
+
+    @Test
+    @DisplayName("모든 진영의 King이 존재한다면 게임 결과가 무승부다.")
+    void determineGameResultInTie() {
+        // when
+        GameResult gameResult = defaltChessBoard.determineGameResult();
+
+        // then
+        assertThat(gameResult).isEqualTo(GameResult.TIE);
+    }
+
+    @Test
+    @DisplayName("이미 종료된 게임은 결과를 판단할 수 없다.")
+    void determineGameResultInEndedGame() {
+        // given
+        ChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.EMPTY_BOARD);
+        ChessBoard customChessBoard = new ChessBoard(1, chessBoardGenerator.create());
+
+        // when & then
+        assertThatThrownBy(customChessBoard::determineGameResult)
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }

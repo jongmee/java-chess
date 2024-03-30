@@ -7,6 +7,7 @@ import chess.service.ChessGameService;
 import chess.view.input.GameArguments;
 import chess.view.input.GameCommand;
 import chess.view.input.InputView;
+import chess.view.input.MoveArguments;
 import chess.view.output.OutputView;
 
 public class Run implements GameState {
@@ -33,13 +34,24 @@ public class Run implements GameState {
             return new End();
         }
         if (gameCommand.isMove()) {
-            chessGameService.move(chessBoard, turn, gameArguments.moveArguments());
+            move(gameArguments.moveArguments(), outputView);
             Turn nextTurn = chessGameService.saveNextTurn(chessBoard, turn);
-            outputView.printChessBoard(chessBoard);
             return new Run(chessBoard, nextTurn, chessGameService);
         }
         evaluateCurrentBoard(outputView);
         return this;
+    }
+
+    private void move(MoveArguments moveArguments, OutputView outputView) {
+        chessGameService.move(chessBoard, turn, moveArguments);
+        outputView.printChessBoard(chessBoard);
+        saveGameResult();
+    }
+
+    private void saveGameResult() {
+        if (!chessBoard.canContinue()) {
+            chessGameService.saveGameResult(chessBoard);
+        }
     }
 
     private void evaluateCurrentBoard(OutputView outputView) {

@@ -4,6 +4,7 @@ import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardGenerator;
 import chess.model.board.ChessBoardInitializer;
 import chess.model.board.Turn;
+import chess.model.evaluation.GameResult;
 import chess.model.piece.Blank;
 import chess.model.piece.Piece;
 import chess.model.piece.Side;
@@ -68,5 +69,11 @@ public class ChessGameService {
         turnDao.delete(chessBoardId);
         turnDao.save(chessBoardId, nextTurn);
         return nextTurn;
+    }
+
+    public void saveGameResult(ChessBoard chessBoard) {
+        long chessBoardId = chessBoard.getId();
+        GameResult gameResult = chessBoard.determineGameResult();
+        chessBoardDao.updateGameResult(chessBoardId, gameResult);
     }
 }

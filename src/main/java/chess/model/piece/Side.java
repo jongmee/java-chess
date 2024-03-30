@@ -11,6 +11,10 @@ public enum Side {
         return List.of(BLACK, WHITE);
     }
 
+    public static int colorsSize() {
+        return colors().size();
+    }
+
     public boolean isWhite() {
         return this == WHITE;
     }

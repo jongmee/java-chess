@@ -2,6 +2,7 @@ package chess.model.board;
 
 import chess.model.piece.*;
 
+import java.util.Collections;
 import java.util.List;
 
 import static chess.model.piece.Side.BLACK;
@@ -29,4 +30,6 @@ public class ChessBoardFixture {
             Blank.INSTANCE, Pawn.from(WHITE), Pawn.from(WHITE), Pawn.from(WHITE), Pawn.from(WHITE), Blank.INSTANCE, Blank.INSTANCE, Pawn.from(WHITE),
             Rook.from(WHITE), Knight.from(WHITE), Bishop.from(WHITE), Queen.from(WHITE), Queen.from(BLACK), Bishop.from(WHITE), Knight.from(WHITE), Rook.from(WHITE)
     );
+
+    public static final List<Piece> EMPTY_BOARD = Collections.nCopies(64, Blank.INSTANCE);
 }

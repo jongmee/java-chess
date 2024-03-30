@@ -1,14 +1,16 @@
 package chess.model.board;
 
+import chess.model.evaluation.GameResult;
 import chess.model.evaluation.PositionEvaluation;
 import chess.model.piece.Blank;
 import chess.model.piece.King;
 import chess.model.piece.Piece;
 import chess.model.piece.Side;
-import chess.model.position.Position;
 import chess.model.position.Path;
+import chess.model.position.Position;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.unmodifiableMap;
@@ -74,6 +76,20 @@ public class ChessBoard {
 
     public PositionEvaluation evaluateCurrentBoard() {
         return new PositionEvaluation(board);
+    }
+
+    public GameResult determineGameResult() {
+        List<GameResult> gameResults = Side.colors()
+                .stream()
+                .filter(side -> board.containsValue(King.from(side)))
+                .map(GameResult::from)
+                .toList();
+        if (gameResults.size() == Side.colorsSize()) {
+            return GameResult.TIE;
+        }
+        return gameResults.stream()
+                .findFirst()
+                .orElseThrow(() -> new UnsupportedOperationException("게임이 이미 종료되어 결과를 판단할 수 없습니다."));
     }
 
     public Map<Position, Piece> getBoard() {
