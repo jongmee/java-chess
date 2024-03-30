@@ -42,14 +42,16 @@ public class ChessBoardDao {
         var query = "select p.* from chess_board cb " +
                 "join piece p " +
                 "on p.chess_board_id = cb.chess_board_id " +
-                "where cb.created_at = (select max(created_at) from chess_board)";
+                "where cb.created_at = (select max(created_at) from chess_board) and cb.game_result = ?";
+        ParameterBinder parameterBinder = preparedStatement ->
+                preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
         ResultSetMapper<Optional<ChessBoard>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
                 return convertChessBoard(resultSet);
             }
             return Optional.empty();
         };
-        return statementExecutor.executeQuery(query, emptyBinder(), resultSetMapper);
+        return statementExecutor.executeQuery(query, parameterBinder, resultSetMapper);
     }
 
     private Optional<ChessBoard> convertChessBoard(ResultSet resultSet) throws SQLException {
@@ -73,10 +75,5 @@ public class ChessBoardDao {
         var typeAttribute = resultSet.getString("type");
         var sideAttribute = resultSet.getString("side");
         return PieceMapper.mapToPiece(typeAttribute, sideAttribute);
-    }
-
-    private ParameterBinder emptyBinder() {
-        return preparedStatement -> {
-        };
     }
 }
