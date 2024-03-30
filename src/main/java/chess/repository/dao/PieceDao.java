@@ -1,7 +1,9 @@
-package chess.repository;
+package chess.repository.dao;
 
 import chess.model.piece.Piece;
 import chess.model.position.Position;
+import chess.repository.utility.StatementExecutor;
+import chess.repository.utility.ParameterBinder;
 
 import java.util.Map;
 

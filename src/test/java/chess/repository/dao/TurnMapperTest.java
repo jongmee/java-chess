@@ -1,7 +1,8 @@
-package chess.repository;
+package chess.repository.dao;
 
 import chess.model.board.Turn;
 import chess.model.piece.Side;
+import chess.repository.exception.DataAccessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

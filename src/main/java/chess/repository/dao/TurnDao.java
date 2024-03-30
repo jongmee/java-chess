@@ -1,6 +1,9 @@
-package chess.repository;
+package chess.repository.dao;
 
 import chess.model.board.Turn;
+import chess.repository.utility.ParameterBinder;
+import chess.repository.utility.ResultSetMapper;
+import chess.repository.utility.StatementExecutor;
 
 import java.util.Optional;
 

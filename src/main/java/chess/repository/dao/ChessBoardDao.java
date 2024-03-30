@@ -1,10 +1,13 @@
-package chess.repository;
+package chess.repository.dao;
 
 import chess.model.board.ChessBoard;
 import chess.model.piece.Piece;
 import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
+import chess.repository.utility.ParameterBinder;
+import chess.repository.utility.ResultSetMapper;
+import chess.repository.utility.StatementExecutor;
 
 import java.util.HashMap;
 import java.util.Map;

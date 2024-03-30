@@ -1,5 +1,7 @@
 package chess.repository;
 
+import chess.repository.utility.MySqlConnection;
+
 import java.sql.SQLException;
 import java.util.List;
 

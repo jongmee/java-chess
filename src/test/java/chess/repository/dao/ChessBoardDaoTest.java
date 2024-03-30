@@ -1,7 +1,8 @@
-package chess.repository;
+package chess.repository.dao;
 
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
+import chess.repository.DataBaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

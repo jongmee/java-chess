@@ -1,6 +1,5 @@
-package chess.model.board.util;
+package chess.model.board;
 
-import chess.model.board.ChessBoardGenerator;
 import chess.model.piece.Piece;
 import chess.model.position.File;
 import chess.model.position.Position;

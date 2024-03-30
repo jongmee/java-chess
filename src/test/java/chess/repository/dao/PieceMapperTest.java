@@ -1,4 +1,4 @@
-package chess.repository;
+package chess.repository.dao;
 
 import chess.model.evaluation.PieceValue;
 import chess.model.piece.Pawn;
@@ -7,6 +7,7 @@ import chess.model.piece.Queen;
 import chess.model.piece.Side;
 import chess.model.position.Path;
 import chess.model.position.Position;
+import chess.repository.exception.DataAccessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

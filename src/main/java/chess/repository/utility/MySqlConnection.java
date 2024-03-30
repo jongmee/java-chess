@@ -1,4 +1,6 @@
-package chess.repository;
+package chess.repository.utility;
+
+import chess.repository.exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +22,6 @@ public class MySqlConnection {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DataAccessException("DB 연결 오류:" + e.getMessage());
         }
     }

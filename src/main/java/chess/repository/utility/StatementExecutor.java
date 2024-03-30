@@ -1,4 +1,6 @@
-package chess.repository;
+package chess.repository.utility;
+
+import chess.repository.exception.DataAccessException;
 
 import java.sql.SQLException;
 
