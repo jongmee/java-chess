@@ -38,10 +38,12 @@ public class ChessBoardDao {
     }
 
     public Optional<ChessBoard> findLatest() {
-        var query = "select p.* from chess_board cb " +
-                "join piece p " +
-                "on p.chess_board_id = cb.chess_board_id " +
-                "where cb.created_at = (select max(created_at) from chess_board) and cb.game_result = ?";
+        var query = """
+                select p.* from chess_board cb
+                join piece p
+                on p.chess_board_id = cb.chess_board_id
+                where cb.created_at = (select max(created_at) from chess_board) and cb.game_result = ?
+                """;
         ParameterBinder parameterBinder = preparedStatement ->
                 preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
         ResultSetMapper<Optional<ChessBoard>> resultSetMapper = resultSet -> {
