@@ -38,7 +38,7 @@ class PieceDaoTest {
         pieceDao.saveAll(initialPieces, chessBoardId);
 
         // then
-        ChessBoard chessBoard = chessBoardDao.findById(chessBoardId);
+        ChessBoard chessBoard = chessBoardDao.findLatest().get();
         assertThat(chessBoard.getBoard()).hasSize(64);
     }
 
@@ -57,7 +57,7 @@ class PieceDaoTest {
         pieceDao.update(chessBoardId, position, newPiece);
 
         // then
-        ChessBoard chessBoard = chessBoardDao.findById(chessBoardId);
+        ChessBoard chessBoard = chessBoardDao.findLatest().get();
         assertThat(chessBoard.getBoard()).containsEntry(position, newPiece);
     }
 }

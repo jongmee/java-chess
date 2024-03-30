@@ -15,6 +15,7 @@ import chess.repository.exception.DataAccessException;
 import chess.view.input.MoveArguments;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class ChessGameService {
     public static final ChessGameService INSTANCE = new ChessGameService();
@@ -26,7 +27,12 @@ public class ChessGameService {
     private ChessGameService() {
     }
 
-    public ChessBoard saveInitialChessBoard() {
+    public ChessBoard createOrGetInitialChessBoard() {
+        Optional<ChessBoard> chessBoard = chessBoardDao.findLatest();
+        return chessBoard.orElseGet(this::createInitialChessBoard);
+    }
+
+    private ChessBoard createInitialChessBoard() {
         ChessBoardGenerator chessBoardInitializer = new ChessBoardInitializer();
         Map<Position, Piece> allPieces = chessBoardInitializer.create();
 

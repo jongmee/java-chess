@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.util.function.Function.identity;
-
 public class ChessBoardDao {
     public static final ChessBoardDao INSTANCE = new ChessBoardDao();
 
@@ -35,22 +33,14 @@ public class ChessBoardDao {
         return statementExecutor.executeUpdate(query, keys, resultSetMapper);
     }
 
-    public Optional<Long> findLastId() {
-        var query = "select * from chess_board order by created_at desc limit 1";
-        ResultSetMapper<Optional<Long>> resultSetMapper = resultSet -> {
-            if (resultSet.next()) {
-                return Optional.of(resultSet.getLong("chess_board_id"));
-            }
-            return Optional.empty();
-        };
-        return statementExecutor.executeQuery(query, preparedStatement -> {}, resultSetMapper);
-    }
-
-    public ChessBoard findById(long chessBoardId) {
-        var query = "select * from piece where chess_board_id = ?";
-        ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
-        ResultSetMapper<ChessBoard> resultSetMapper = resultSet -> {
+    public Optional<ChessBoard> findLatest() {
+        var query = "select p.* from piece p " +
+                "join chess_board cb " +
+                "on p.chess_board_id = cb.chess_board_id " +
+                "where cb.created_at = (select max(created_at) from chess_board)";
+        ResultSetMapper<Optional<ChessBoard>> resultSetMapper = resultSet -> {
             Map<Position, Piece> board = new HashMap<>();
+            long chessBoardId = -1;
             while (resultSet.next()) {
                 var fileAttribute = resultSet.getString("file");
                 var rankAttribute = resultSet.getInt("rank");
@@ -59,9 +49,18 @@ public class ChessBoardDao {
                 var sideAttribute = resultSet.getString("side");
                 Piece piece = PieceMapper.mapToPiece(typeAttribute, sideAttribute);
                 board.put(position, piece);
+                chessBoardId = resultSet.getLong("chess_board_id");
             }
-            return new ChessBoard(chessBoardId, board);
+            if (chessBoardId == -1) {
+                return Optional.empty();
+            }
+            return Optional.of(new ChessBoard(chessBoardId, board));
         };
-        return statementExecutor.executeQuery(query, parameterBinder, resultSetMapper);
+        return statementExecutor.executeQuery(query, emptyBinder(), resultSetMapper);
+    }
+
+    private ParameterBinder emptyBinder() {
+        return preparedStatement -> {
+        };
     }
 }

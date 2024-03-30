@@ -10,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ChessBoardDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
     private final ChessBoardDao chessBoardDao = ChessBoardDao.INSTANCE;
+    private final PieceDao pieceDao = PieceDao.INSTANCE;
 
     @BeforeEach
     void setUp() {
@@ -31,30 +33,19 @@ class ChessBoardDaoTest {
     }
 
     @Test
-    @DisplayName("가장 최근 저장된 체스 보드 id를 조회한다.")
+    @DisplayName("가장 최근 저장된 체스 보드를 조회한다.")
     void findLastId() {
         // given
-        chessBoardDao.save();
-
-        // when
-        Optional<Long> chessBoardId = chessBoardDao.findLastId();
-
-        // then
-        assertThat(chessBoardId).isNotEmpty();
-    }
-
-    @Test
-    @DisplayName("체스 보드를 id로 조회한다.")
-    void findById() {
-        // given
         long chessBoardId = chessBoardDao.save().get();
-        PieceDao pieceDao = PieceDao.INSTANCE;
         pieceDao.saveAll(new ChessBoardInitializer().create(), chessBoardId);
 
         // when
-        ChessBoard chessBoard = chessBoardDao.findById(chessBoardId);
+        Optional<ChessBoard> chessBoard = chessBoardDao.findLatest();
 
         // then
-        assertThat(chessBoard.getBoard()).hasSize(64);
+        assertAll(
+                () -> assertThat(chessBoard).isNotEmpty(),
+                () -> chessBoard.ifPresent(actual -> assertThat(actual.getBoard()).hasSize(64))
+        );
     }
 }

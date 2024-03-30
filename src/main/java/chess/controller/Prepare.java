@@ -19,7 +19,7 @@ public class Prepare implements GameState {
         if (gameCommand.isEnd()) {
             return new End();
         }
-        ChessBoard chessBoard = chessGameService.saveInitialChessBoard();
+        ChessBoard chessBoard = chessGameService.createOrGetInitialChessBoard();
         outputView.printChessBoard(chessBoard);
         return Run.initializeWithFirstTurn(chessBoard, chessGameService);
     }
