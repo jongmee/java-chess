@@ -21,7 +21,7 @@ public class MySqlConnection {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("DB 연결 오류:" + e.getMessage());
+            throw new DataAccessException("DB 연결 오류:" + e.getMessage());
         }
     }
 }

@@ -16,7 +16,7 @@ public class StatementExecutor {
             parameterBinder.bind(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(e.getMessage());
         }
     }
 
@@ -27,7 +27,7 @@ public class StatementExecutor {
             var resultSet = preparedStatement.getGeneratedKeys();
             return resultSetMapper.map(resultSet);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(e.getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ public class StatementExecutor {
             parameterBinder.bind(preparedStatement);
             preparedStatement.executeBatch();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class StatementExecutor {
             var resultSet = preparedStatement.executeQuery();
             return resultSetMapper.map(resultSet);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(e.getMessage());
         }
     }
 }

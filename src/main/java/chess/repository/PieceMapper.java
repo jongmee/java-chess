@@ -33,14 +33,14 @@ public enum PieceMapper {
         return Arrays.stream(values())
                 .filter(pieceMapper -> pieceMapper.piece.equals(piece))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(""));
+                .orElseThrow(() -> new DataAccessException("Piece에 대응되는 DB 속성 값이 없습니다."));
     }
 
     public static Piece mapToPiece(String typeAttribute, String sideAttribute) {
         return Arrays.stream(values())
                 .filter(pieceMapper -> pieceMapper.typeAttribute.equals(typeAttribute) && pieceMapper.sideAttribute.equals(sideAttribute))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(""))
+                .orElseThrow(() -> new DataAccessException("DB 속성에 대응되는 Piece가 없습니다."))
                 .piece;
     }
 

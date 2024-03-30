@@ -21,7 +21,7 @@ public enum TurnMapper {
         return Arrays.stream(values())
                 .filter(turnMapper -> turnMapper.sideAttribute.equals(sideAttribute))
                 .findFirst()
-                .orElseThrow()
+                .orElseThrow(() -> new DataAccessException("DB 속성에 대응되는 Turn이 없습니다."))
                 .turn;
     }
 
@@ -29,7 +29,7 @@ public enum TurnMapper {
         return Arrays.stream(values())
                 .filter(turnMapper -> turnMapper.turn.equals(turn))
                 .findFirst()
-                .orElseThrow()
+                .orElseThrow(() -> new DataAccessException("Turn에 대응되는 DB 속성이 없습니다."))
                 .sideAttribute;
     }
 }
