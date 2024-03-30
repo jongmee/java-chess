@@ -4,9 +4,10 @@ import chess.model.board.ChessBoard;
 import chess.model.evaluation.PositionEvaluation;
 import chess.model.piece.Piece;
 import chess.model.piece.Side;
-import chess.model.position.Position;
 import chess.model.position.File;
+import chess.model.position.Position;
 import chess.model.position.Rank;
+import chess.repository.dto.GameResultDto;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,11 +67,20 @@ public class OutputView {
     }
 
     public void printPositionEvaluation(PositionEvaluation positionEvaluation) {
-        Side.colors().forEach(side -> printScoreBySide(side, positionEvaluation));
+        Side.colors()
+                .forEach(side -> printScoreBySide(side, positionEvaluation));
     }
 
     private void printScoreBySide(Side side, PositionEvaluation positionEvaluation) {
         System.out.println(side.name() + ": " + positionEvaluation.getEvaluationBySide(side) + "점");
+    }
+
+    public void printGameResults(List<GameResultDto> gameResultDtos) {
+        gameResultDtos.forEach(this::printGameResultDto);
+    }
+
+    private void printGameResultDto(GameResultDto gameResultDto) {
+        System.out.println("시각: " + gameResultDto.createdAt() + " 결과: " + gameResultDto.gameResult().name());
     }
 
     public void printException(String message) {

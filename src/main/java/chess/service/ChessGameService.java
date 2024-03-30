@@ -12,9 +12,11 @@ import chess.model.position.Position;
 import chess.repository.dao.ChessBoardDao;
 import chess.repository.dao.PieceDao;
 import chess.repository.dao.TurnDao;
+import chess.repository.dto.GameResultDto;
 import chess.repository.exception.DataAccessException;
 import chess.view.input.MoveArguments;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -75,5 +77,9 @@ public class ChessGameService {
         long chessBoardId = chessBoard.getId();
         GameResult gameResult = chessBoard.determineGameResult();
         chessBoardDao.updateGameResult(chessBoardId, gameResult);
+    }
+
+    public List<GameResultDto> findAllGameResults() {
+        return chessBoardDao.findAllGameResult();
     }
 }

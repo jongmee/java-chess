@@ -6,7 +6,8 @@ public enum GameCommand {
     START("start"),
     MOVE("move"),
     STATUS("status"),
-    END("end");
+    END("end"),
+    LOG("logs");
 
     private final String text;
 
@@ -17,17 +18,25 @@ public enum GameCommand {
     public static GameCommand createInPreparation(String input) {
         return Arrays.stream(values())
                 .filter(value -> value.text.equals(input))
-                .filter(value -> value != MOVE)
+                .filter(GameCommand::isInPreparation)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("start 혹은 end를 입력해주세요."));
+                .orElseThrow(() -> new IllegalArgumentException("start, end, logs 중 하나를 입력해주세요."));
+    }
+
+    private static boolean isInPreparation(GameCommand gameCommand) {
+        return gameCommand != MOVE && gameCommand != STATUS;
     }
 
     public static GameCommand createInProgress(String input) {
         return Arrays.stream(values())
                 .filter(value -> value.text.equals(input))
-                .filter(value -> value != START)
+                .filter(GameCommand::isInProgress)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("move, status, end 중 하나를 입력해주세요."));
+    }
+
+    private static boolean isInProgress(GameCommand gameCommand) {
+        return gameCommand != START && gameCommand != LOG;
     }
 
     public boolean isEnd() {
@@ -36,5 +45,9 @@ public enum GameCommand {
 
     public boolean isMove() {
         return this == MOVE;
+    }
+
+    public boolean isLogs() {
+        return this == LOG;
     }
 }
