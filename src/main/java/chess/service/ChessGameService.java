@@ -50,8 +50,13 @@ public class ChessGameService {
         pieceDao.update(chessBoard.getId(), targetPosition, sourcePiece);
     }
 
-    public Turn saveInitialTurn(ChessBoard chessBoard) {
+    public Turn createOrGetInitialTurn(ChessBoard chessBoard) {
         long chessBoardId = chessBoard.getId();
+        Optional<Turn> turn = turnDao.findByChessBoardId(chessBoardId);
+        return turn.orElseGet(() -> createInitialTurn(chessBoardId));
+    }
+
+    private Turn createInitialTurn(long chessBoardId) {
         Turn initialTurn = Turn.from(Side.WHITE);
         turnDao.save(chessBoardId, initialTurn);
         return initialTurn;

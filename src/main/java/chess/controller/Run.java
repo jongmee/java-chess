@@ -21,7 +21,7 @@ public class Run implements GameState {
     }
 
     public static Run initializeWithFirstTurn(ChessBoard chessBoard, ChessGameService chessGameService) {
-        Turn initialTurn = chessGameService.saveInitialTurn(chessBoard);
+        Turn initialTurn = chessGameService.createOrGetInitialTurn(chessBoard);
         return new Run(chessBoard, initialTurn, chessGameService);
     }
 
