@@ -24,7 +24,7 @@ public class ChessBoardDao {
     }
 
     public Optional<Long> save() {
-        var query = "insert into chess_board(game_result) values(?)";
+        var query = "INSERT INTO chess_board(game_result) VALUES(?)";
         String[] keys = {"chess_board_id"};
         ParameterBinder parameterBinder = preparedStatement ->
                 preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
@@ -39,10 +39,9 @@ public class ChessBoardDao {
 
     public Optional<ChessBoard> findLatest() {
         var query = """
-                select p.* from chess_board cb
-                join piece p
-                on p.chess_board_id = cb.chess_board_id
-                where cb.created_at = (select max(created_at) from chess_board) and cb.game_result = ?
+                 SELECT p.* FROM chess_board cb
+                 JOIN piece p ON p.chess_board_id = cb.chess_board_id
+                 WHERE cb.created_at = (SELECT MAX(created_at) FROM chess_board) AND cb.game_result = ?
                 """;
         ParameterBinder parameterBinder = preparedStatement ->
                 preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
@@ -79,7 +78,7 @@ public class ChessBoardDao {
     }
 
     public void updateGameResult(long chessBoardId, GameResult gameResult) {
-        var query = "update chess_board set game_result = ? where chess_board_id = ?";
+        var query = "UPDATE chess_board SET game_result = ? WHERE chess_board_id = ?";
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, gameResult.name());
             preparedStatement.setLong(2, chessBoardId);
@@ -88,7 +87,7 @@ public class ChessBoardDao {
     }
 
     public List<GameResultDto> findAllGameResult() {
-        var query = "select * from chess_board where game_result != ? order by created_at desc";
+        var query = "SELECT * FROM chess_board WHERE game_result != ? ORDER BY created_at DESC";
         ParameterBinder parameterBinder = preparedStatement ->
                 preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
         ResultSetMapper<List<GameResultDto>> resultSetMapper = resultSet -> {

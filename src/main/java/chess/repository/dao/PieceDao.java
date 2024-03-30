@@ -16,7 +16,7 @@ public class PieceDao {
     }
 
     public void saveAll(Map<Position, Piece> piecesWithPosition, long chessBoardId) {
-        var query = "insert into piece(file, `rank`, type, chess_board_id, side) values (?, ?, ?, ?, ?)";
+        var query = "INSERT INTO piece(file, `rank`, type, chess_board_id, side) VALUES (?, ?, ?, ?, ?)";
         ParameterBinder parameterBinder = preparedStatement -> {
             for (var entry : piecesWithPosition.entrySet()) {
                 var position = entry.getKey();
@@ -35,7 +35,7 @@ public class PieceDao {
     }
 
     public void update(long chessBoardId, Position position, Piece piece) {
-        var query = "update piece set type = ?, side = ? where file = ? and `rank` = ? and chess_board_id = ?";
+        var query = "UPDATE piece SET type = ?, side = ? WHERE file = ? AND `rank` = ? AND chess_board_id = ?";
         var pieceMapper = PieceMapper.from(piece);
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, pieceMapper.typeAttribute());

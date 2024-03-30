@@ -8,28 +8,28 @@ USE chess;
 
 CREATE TABLE chess_board
 (
-    chess_board_id bigint      NOT NULL AUTO_INCREMENT,
+    chess_board_id BIGINT      NOT NULL AUTO_INCREMENT,
     created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    game_result    varchar(15) NOT NULL,
+    game_result    VARCHAR(15) NOT NULL,
     PRIMARY KEY (chess_board_id)
 );
 
 CREATE TABLE piece
 (
-    file           varchar(10) NOT NULL,
-    `rank`         int         NOT NULL,
-    type           varchar(10) NOT NULL,
-    chess_board_id bigint      NOT NULL,
-    side           varchar(10) NOT NULL,
+    file           VARCHAR(10) NOT NULL,
+    `rank`         INT         NOT NULL,
+    type           VARCHAR(10) NOT NULL,
+    chess_board_id BIGINT      NOT NULL,
+    side           VARCHAR(10) NOT NULL,
     FOREIGN KEY (`chess_board_id`) REFERENCES `chess_board` (`chess_board_id`),
     PRIMARY KEY (file, `rank`, chess_board_id)
 );
 
 CREATE TABLE turn
 (
-    side           varchar(10) NOT NULL,
-    chess_board_id bigint      NOT NULL,
-    FOREIGN KEY (chess_board_id) references `chess_board` (`chess_board_id`),
+    side           VARCHAR(10) NOT NULL,
+    chess_board_id BIGINT      NOT NULL,
+    FOREIGN KEY (chess_board_id) REFERENCES `chess_board` (`chess_board_id`),
     PRIMARY KEY (chess_board_id)
 );
 
@@ -37,27 +37,27 @@ USE chess_test;
 
 CREATE TABLE chess_board
 (
-    chess_board_id bigint      NOT NULL AUTO_INCREMENT,
+    chess_board_id BIGINT      NOT NULL AUTO_INCREMENT,
     created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    game_result    varchar(15) NOT NULL,
+    game_result    VARCHAR(15) NOT NULL,
     PRIMARY KEY (chess_board_id)
 );
 
 CREATE TABLE piece
 (
-    file           varchar(10) NOT NULL,
-    `rank`         int         NOT NULL,
-    type           varchar(10) NOT NULL,
-    chess_board_id bigint      NOT NULL,
-    side           varchar(10) NOT NULL,
+    file           VARCHAR(10) NOT NULL,
+    `rank`         INT         NOT NULL,
+    type           VARCHAR(10) NOT NULL,
+    chess_board_id BIGINT      NOT NULL,
+    side           VARCHAR(10) NOT NULL,
     FOREIGN KEY (`chess_board_id`) REFERENCES `chess_board` (`chess_board_id`),
     PRIMARY KEY (file, `rank`, chess_board_id)
 );
 
 CREATE TABLE turn
 (
-    side           varchar(10) NOT NULL,
-    chess_board_id bigint      NOT NULL,
-    FOREIGN KEY (chess_board_id) references `chess_board` (`chess_board_id`),
+    side           VARCHAR(10) NOT NULL,
+    chess_board_id BIGINT      NOT NULL,
+    FOREIGN KEY (chess_board_id) REFERENCES `chess_board` (`chess_board_id`),
     PRIMARY KEY (chess_board_id)
 );

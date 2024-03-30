@@ -17,7 +17,7 @@ public class TurnDao {
     }
 
     public void save(long chessBoardId, Turn turn) {
-        var query = "insert into turn(side, chess_board_id) values(?, ?)";
+        var query = "INSERT INTO turn(side, chess_board_id) VALUES (?, ?)";
         var side = turn.getSide().name();
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, side);
@@ -27,13 +27,13 @@ public class TurnDao {
     }
 
     public void delete(long chessBoardId) {
-        var query = "delete from turn where chess_board_id = ?";
+        var query = "DELETE FROM turn WHERE chess_board_id = ?";
         ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
         statementExecutor.executeUpdate(query, parameterBinder);
     }
 
     public Optional<Turn> findByChessBoardId(long chessBoardId) {
-        var query = "select * from turn where chess_board_id = ?";
+        var query = "SELECT * FROM turn WHERE chess_board_id = ?";
         ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
         ResultSetMapper<Optional<Turn>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
