@@ -1,5 +1,6 @@
 package chess.controller;
 
+import chess.service.ChessGameService;
 import chess.view.input.InputView;
 import chess.view.output.OutputView;
 
@@ -7,13 +8,9 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class ChessGame {
-    private final InputView inputView;
-    private final OutputView outputView;
-
-    public ChessGame(InputView inputView, OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-    }
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
+    private final ChessGameService chessGameService = ChessGameService.INSTANCE;
 
     public void start() {
         GameState gameState = retryOnException(this::prepare);
@@ -24,7 +21,7 @@ public class ChessGame {
     }
 
     private GameState prepare() {
-        GameState prepare = new Prepare();
+        GameState prepare = new Prepare(chessGameService);
         return prepare.run(inputView, outputView);
     }
 

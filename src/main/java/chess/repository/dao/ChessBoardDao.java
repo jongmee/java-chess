@@ -47,7 +47,7 @@ public class ChessBoardDao {
                 Piece piece = PieceMapper.mapToPiece(typeAttribute, sideAttribute);
                 board.put(position, piece);
             }
-            return new ChessBoard(board);
+            return new ChessBoard(chessBoardId, board);
         };
         return statementExecutor.executeQuery(query, parameterBinder, resultSetMapper);
     }

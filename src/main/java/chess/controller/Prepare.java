@@ -1,15 +1,17 @@
 package chess.controller;
 
 import chess.model.board.ChessBoard;
-import chess.model.board.ChessBoardGenerator;
-import chess.model.board.ChessBoardInitializer;
-import chess.model.board.Turn;
-import chess.model.piece.Side;
+import chess.service.ChessGameService;
 import chess.view.input.GameCommand;
 import chess.view.input.InputView;
 import chess.view.output.OutputView;
 
 public class Prepare implements GameState {
+    private final ChessGameService chessGameService;
+
+    public Prepare(ChessGameService chessGameService) {
+        this.chessGameService = chessGameService;
+    }
 
     @Override
     public GameState run(InputView inputView, OutputView outputView) {
@@ -17,10 +19,9 @@ public class Prepare implements GameState {
         if (gameCommand.isEnd()) {
             return new End();
         }
-        ChessBoardGenerator chessBoardInitializer = new ChessBoardInitializer();
-        ChessBoard chessBoard = new ChessBoard(chessBoardInitializer.create());
+        ChessBoard chessBoard = chessGameService.saveInitialChessBoard();
         outputView.printChessBoard(chessBoard);
-        return Run.initializeWithFirstTurn(chessBoard);
+        return Run.initializeWithFirstTurn(chessBoard, chessGameService);
     }
 
     private GameCommand getFirstGameCommand(InputView inputView) {

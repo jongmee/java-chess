@@ -15,10 +15,10 @@ public class PieceDao {
     private PieceDao() {
     }
 
-    public void saveAll(Map<Position, Piece> board, long chessBoardId) {
+    public void saveAll(Map<Position, Piece> piecesWithPosition, long chessBoardId) {
         var query = "insert into piece(file, `rank`, type, chess_board_id, side) values (?, ?, ?, ?, ?)";
         ParameterBinder parameterBinder = preparedStatement -> {
-            for (var entry : board.entrySet()) {
+            for (var entry : piecesWithPosition.entrySet()) {
                 var position = entry.getKey();
                 var pieceMapper = PieceMapper.from(entry.getValue());
                 preparedStatement.setString(1, position.getFile().getName());

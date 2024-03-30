@@ -14,13 +14,15 @@ import java.util.Map;
 import static java.util.Collections.unmodifiableMap;
 
 public class ChessBoard {
+    private final long id;
     private final Map<Position, Piece> board;
 
-    public ChessBoard(Map<Position, Piece> board) {
+    public ChessBoard(long id, Map<Position, Piece> board) {
+        this.id = id;
         this.board = new HashMap<>(board);
     }
 
-    public void move(Position sourcePosition, Position targetPosition, Turn turn) {
+    public Piece move(Position sourcePosition, Position targetPosition, Turn turn) {
         Piece sourcePiece = board.get(sourcePosition);
         validateSource(sourcePiece, turn);
         Piece targetPiece = board.get(targetPosition);
@@ -29,6 +31,7 @@ public class ChessBoard {
         validatePathIsEmpty(path);
         validatePathContainsPiece(path);
         replacePiece(sourcePiece, sourcePosition, targetPosition);
+        return sourcePiece;
     }
 
     private void validateSource(Piece sourcePiece, Turn turn) {
@@ -75,5 +78,9 @@ public class ChessBoard {
 
     public Map<Position, Piece> getBoard() {
         return unmodifiableMap(board);
+    }
+
+    public long getId() {
+        return id;
     }
 }

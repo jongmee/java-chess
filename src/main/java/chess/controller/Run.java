@@ -1,27 +1,28 @@
 package chess.controller;
 
 import chess.model.board.ChessBoard;
-import chess.model.evaluation.PositionEvaluation;
 import chess.model.board.Turn;
-import chess.model.piece.Side;
-import chess.model.position.Position;
+import chess.model.evaluation.PositionEvaluation;
+import chess.service.ChessGameService;
 import chess.view.input.GameArguments;
 import chess.view.input.GameCommand;
 import chess.view.input.InputView;
-import chess.view.input.MoveArguments;
 import chess.view.output.OutputView;
 
 public class Run implements GameState {
     private final ChessBoard chessBoard;
     private final Turn turn;
+    private final ChessGameService chessGameService;
 
-    public Run(ChessBoard chessBoard, Turn turn) {
+    public Run(ChessBoard chessBoard, Turn turn, ChessGameService chessGameService) {
         this.chessBoard = chessBoard;
         this.turn = turn;
+        this.chessGameService = chessGameService;
     }
 
-    public static Run initializeWithFirstTurn(ChessBoard chessBoard) {
-        return new Run(chessBoard, Turn.from(Side.WHITE));
+    public static Run initializeWithFirstTurn(ChessBoard chessBoard, ChessGameService chessGameService) {
+        Turn initialTurn = chessGameService.saveInitialTurn(chessBoard);
+        return new Run(chessBoard, initialTurn, chessGameService);
     }
 
     @Override
@@ -32,18 +33,13 @@ public class Run implements GameState {
             return new End();
         }
         if (gameCommand.isMove()) {
-            move(gameArguments.moveArguments(), outputView);
-            return new Run(chessBoard, turn.getNextTurn());
+            chessGameService.move(chessBoard, turn, gameArguments.moveArguments());
+            Turn nextTurn = chessGameService.saveNextTurn(chessBoard, turn);
+            outputView.printChessBoard(chessBoard);
+            return new Run(chessBoard, nextTurn, chessGameService);
         }
         evaluateCurrentBoard(outputView);
         return this;
-    }
-
-    private void move(MoveArguments moveArguments, OutputView outputView) {
-        Position source = moveArguments.createSourcePosition();
-        Position target = moveArguments.createTargetPosition();
-        chessBoard.move(source, target, turn);
-        outputView.printChessBoard(chessBoard);
     }
 
     private void evaluateCurrentBoard(OutputView outputView) {

@@ -15,7 +15,7 @@ class PositionEvaluationTest {
     @DisplayName("체스판에 있는 기물에 대한 점수를 구한다.")
     void evaluate() {
         // given
-        ChessBoard chessBoard = new ChessBoard(new ChessBoardInitializer().create());
+        ChessBoard chessBoard = new ChessBoard(1, new ChessBoardInitializer().create());
 
         // when
         PositionEvaluation positionEvaluation = new PositionEvaluation(chessBoard.getBoard());
