@@ -1,6 +1,7 @@
 package chess.repository.dao;
 
 import chess.model.board.ChessBoard;
+import chess.model.evaluation.GameResult;
 import chess.model.piece.Piece;
 import chess.model.position.File;
 import chess.model.position.Position;
@@ -24,15 +25,17 @@ public class ChessBoardDao {
     }
 
     public Optional<Long> save() {
-        var query = "insert into chess_board values()";
+        var query = "insert into chess_board(game_result) values(?)";
         String[] keys = {"chess_board_id"};
+        ParameterBinder parameterBinder = preparedStatement ->
+                preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
         ResultSetMapper<Optional<Long>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
                 return Optional.of(resultSet.getLong(1));
             }
             return Optional.empty();
         };
-        return statementExecutor.executeUpdate(query, keys, resultSetMapper);
+        return statementExecutor.executeUpdate(query, keys, parameterBinder, resultSetMapper);
     }
 
     public Optional<ChessBoard> findLatest() {

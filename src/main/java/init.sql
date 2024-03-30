@@ -4,6 +4,7 @@ CREATE TABLE chess_board
 (
     chess_board_id bigint NOT NULL AUTO_INCREMENT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    game_result varchar(10) NOT NULL,
     PRIMARY KEY (chess_board_id)
 );
 

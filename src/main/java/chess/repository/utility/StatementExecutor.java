@@ -22,9 +22,10 @@ public class StatementExecutor {
         }
     }
 
-    public <T> T executeUpdate(String query, String[] keys, ResultSetMapper<T> resultSetMapper) {
+    public <T> T executeUpdate(String query, String[] keys, ParameterBinder parameterBinder, ResultSetMapper<T> resultSetMapper) {
         try (var connection = mySqlConnection.getConnection();
              var preparedStatement = connection.prepareStatement(query, keys)) {
+            parameterBinder.bind(preparedStatement);
             preparedStatement.executeUpdate();
             var resultSet = preparedStatement.getGeneratedKeys();
             return resultSetMapper.map(resultSet);
