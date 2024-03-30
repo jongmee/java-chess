@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final PieceDao pieceDao = PieceDao.INSTANCE;
-    private final ChessBoardDao chessBoardDao = ChessBoardDao.INSTANCE;
+    private final PieceDao pieceDao = new PieceDao();
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
 
     @BeforeEach
     void setUp() {

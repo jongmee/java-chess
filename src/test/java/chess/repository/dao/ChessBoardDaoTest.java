@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ChessBoardDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final ChessBoardDao chessBoardDao = ChessBoardDao.INSTANCE;
-    private final PieceDao pieceDao = PieceDao.INSTANCE;
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
+    private final PieceDao pieceDao = new PieceDao();
 
     @BeforeEach
     void setUp() {

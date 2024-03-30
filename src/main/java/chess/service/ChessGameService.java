@@ -21,14 +21,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ChessGameService {
-    public static final ChessGameService INSTANCE = new ChessGameService();
-
-    private final ChessBoardDao chessBoardDao = ChessBoardDao.INSTANCE;
-    private final PieceDao pieceDao = PieceDao.INSTANCE;
-    private final TurnDao turnDao = TurnDao.INSTANCE;
-
-    private ChessGameService() {
-    }
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
+    private final PieceDao pieceDao = new PieceDao();
+    private final TurnDao turnDao = new TurnDao();
 
     public ChessBoard createOrGetInitialChessBoard() {
         Optional<ChessBoard> chessBoard = chessBoardDao.findLatest();

@@ -13,8 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class TurnDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final TurnDao turnDao = TurnDao.INSTANCE;
-    private final ChessBoardDao chessBoardDao = ChessBoardDao.INSTANCE;
+    private final TurnDao turnDao = new TurnDao();
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
 
     @BeforeEach
     void setUp() {

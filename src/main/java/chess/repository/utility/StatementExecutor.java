@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class StatementExecutor {
     public static final StatementExecutor INSTANCE = new StatementExecutor();
 
-    private final MySqlConnection mySqlConnection = MySqlConnection.INSTANCE;
+    private static final MySqlConnection mySqlConnection = MySqlConnection.INSTANCE;
 
     private StatementExecutor() {
     }

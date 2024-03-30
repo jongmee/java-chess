@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public class ChessGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final ChessGameService chessGameService = ChessGameService.INSTANCE;
+    private final ChessGameService chessGameService = new ChessGameService();
 
     public void start() {
         GameState gameState = retryOnException(this::prepare);

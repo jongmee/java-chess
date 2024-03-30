@@ -16,12 +16,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class ChessBoardDao {
-    public static final ChessBoardDao INSTANCE = new ChessBoardDao();
-
-    private final StatementExecutor statementExecutor = StatementExecutor.INSTANCE;
-
-    private ChessBoardDao() {
-    }
+    private static final StatementExecutor statementExecutor = StatementExecutor.INSTANCE;
 
     public Optional<Long> save() {
         var query = "insert into chess_board(game_result) values(?)";

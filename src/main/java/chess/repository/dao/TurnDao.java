@@ -8,12 +8,7 @@ import chess.repository.utility.StatementExecutor;
 import java.util.Optional;
 
 public class TurnDao {
-    public static final TurnDao INSTANCE = new TurnDao();
-
-    private final StatementExecutor statementExecutor = StatementExecutor.INSTANCE;
-
-    private TurnDao() {
-    }
+    private static final StatementExecutor statementExecutor = StatementExecutor.INSTANCE;
 
     public void save(long chessBoardId, Turn turn) {
         var query = "insert into turn(side, chess_board_id) values(?, ?)";
