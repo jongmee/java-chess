@@ -21,21 +21,21 @@ public class ChessBoardDao {
     private ChessBoardDao() {
     }
 
-    public Optional<Integer> save() {
+    public Optional<Long> save() {
         var query = "insert into chess_board values()";
         String[] keys = {"chess_board_id"};
-        ResultSetMapper<Optional<Integer>> resultSetMapper = resultSet -> {
+        ResultSetMapper<Optional<Long>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
-                return Optional.of(resultSet.getInt(1));
+                return Optional.of(resultSet.getLong(1));
             }
             return Optional.empty();
         };
         return statementExecutor.executeUpdate(query, keys, resultSetMapper);
     }
 
-    public ChessBoard findById(int chessBoardId) {
+    public ChessBoard findById(long chessBoardId) {
         var query = "select * from piece where chess_board_id = ?";
-        ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setInt(1, chessBoardId);
+        ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
         ResultSetMapper<ChessBoard> resultSetMapper = resultSet -> {
             Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {

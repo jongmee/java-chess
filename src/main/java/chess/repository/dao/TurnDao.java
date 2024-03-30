@@ -15,19 +15,19 @@ public class TurnDao {
     private TurnDao() {
     }
 
-    public void save(int chessBoardId, Turn turn) {
+    public void save(long chessBoardId, Turn turn) {
         var query = "insert into turn(side, chess_board_id) values(?, ?)";
         var side = TurnMapper.mapToSideAttribute(turn);
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, side);
-            preparedStatement.setInt(2, chessBoardId);
+            preparedStatement.setLong(2, chessBoardId);
         };
         statementExecutor.executeUpdate(query, parameterBinder);
     }
 
-    public Optional<Turn> findByChessBoardId(int chessBoardId) {
+    public Optional<Turn> findByChessBoardId(long chessBoardId) {
         var query = "select * from turn where chess_board_id = ?";
-        ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setInt(1, chessBoardId);
+        ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
         ResultSetMapper<Optional<Turn>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
                 var sideAttribute = resultSet.getString("side");

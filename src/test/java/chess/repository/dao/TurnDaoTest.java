@@ -25,7 +25,7 @@ class TurnDaoTest {
     @DisplayName("체스 게임의 차례를 저장한다.")
     void save() {
         // given
-        int chessBoardId = chessBoardDao.save().get();
+        long chessBoardId = chessBoardDao.save().get();
         Turn turn = Turn.from(Side.WHITE);
 
         // when

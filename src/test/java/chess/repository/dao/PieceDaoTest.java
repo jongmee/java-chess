@@ -32,7 +32,7 @@ class PieceDaoTest {
     void saveAll() {
         // given
         Map<Position, Piece> initialChessBoard = new ChessBoardInitializer().create();
-        int chessBoardId = chessBoardDao.save().get();
+        long chessBoardId = chessBoardDao.save().get();
 
         // when
         pieceDao.saveAll(initialChessBoard, chessBoardId);
@@ -46,7 +46,7 @@ class PieceDaoTest {
     @DisplayName("특정 위치의 기물을 교체한다.")
     void update() {
         // given
-        int chessBoardId = chessBoardDao.save().get();
+        long chessBoardId = chessBoardDao.save().get();
         Map<Position, Piece> initialChessBoard = new ChessBoardInitializer().create();
         pieceDao.saveAll(initialChessBoard, chessBoardId);
 
