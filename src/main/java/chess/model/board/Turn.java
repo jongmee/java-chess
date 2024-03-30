@@ -30,4 +30,8 @@ public class Turn {
     public boolean doesNotMatch(Piece piece) {
         return !piece.isSameSide(side);
     }
+
+    public Side getSide() {
+        return side;
+    }
 }
