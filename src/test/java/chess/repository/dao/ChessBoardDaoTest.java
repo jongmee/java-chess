@@ -31,6 +31,19 @@ class ChessBoardDaoTest {
     }
 
     @Test
+    @DisplayName("가장 최근 저장된 체스 보드 id를 조회한다.")
+    void findLastId() {
+        // given
+        chessBoardDao.save();
+
+        // when
+        Optional<Long> chessBoardId = chessBoardDao.findLastId();
+
+        // then
+        assertThat(chessBoardId).isNotEmpty();
+    }
+
+    @Test
     @DisplayName("체스 보드를 id로 조회한다.")
     void findById() {
         // given

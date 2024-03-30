@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.function.Function.identity;
+
 public class ChessBoardDao {
     public static final ChessBoardDao INSTANCE = new ChessBoardDao();
 
@@ -31,6 +33,17 @@ public class ChessBoardDao {
             return Optional.empty();
         };
         return statementExecutor.executeUpdate(query, keys, resultSetMapper);
+    }
+
+    public Optional<Long> findLastId() {
+        var query = "select * from chess_board order by created_at desc limit 1";
+        ResultSetMapper<Optional<Long>> resultSetMapper = resultSet -> {
+            if (resultSet.next()) {
+                return Optional.of(resultSet.getLong("chess_board_id"));
+            }
+            return Optional.empty();
+        };
+        return statementExecutor.executeQuery(query, preparedStatement -> {}, resultSetMapper);
     }
 
     public ChessBoard findById(long chessBoardId) {
