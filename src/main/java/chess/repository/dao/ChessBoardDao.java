@@ -6,15 +6,14 @@ import chess.model.piece.Piece;
 import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
+import chess.repository.dto.GameResultDto;
 import chess.repository.utility.ParameterBinder;
 import chess.repository.utility.ResultSetMapper;
 import chess.repository.utility.StatementExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ChessBoardDao {
     public static final ChessBoardDao INSTANCE = new ChessBoardDao();
@@ -75,5 +74,35 @@ public class ChessBoardDao {
         var typeAttribute = resultSet.getString("type");
         var sideAttribute = resultSet.getString("side");
         return PieceMapper.mapToPiece(typeAttribute, sideAttribute);
+    }
+
+    public void updateGameResult(long chessBoardId, GameResult gameResult) {
+        var query = "update chess_board set game_result = ? where chess_board_id = ?";
+        ParameterBinder parameterBinder = preparedStatement -> {
+            preparedStatement.setString(1, gameResult.name());
+            preparedStatement.setLong(2, chessBoardId);
+        };
+        statementExecutor.executeUpdate(query, parameterBinder);
+    }
+
+    public List<GameResultDto> findAllGameResult() {
+        var query = "select * from chess_board where game_result != ? order by created_at desc";
+        ParameterBinder parameterBinder = preparedStatement ->
+                preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
+        ResultSetMapper<List<GameResultDto>> resultSetMapper = resultSet -> {
+            List<GameResultDto> gameResultDtos = new ArrayList<>();
+            while (resultSet.next()) {
+                var gameResultDto = convertGameResultDto(resultSet);
+                gameResultDtos.add(gameResultDto);
+            }
+            return gameResultDtos;
+        };
+        return statementExecutor.executeQuery(query, parameterBinder, resultSetMapper);
+    }
+
+    private GameResultDto convertGameResultDto(ResultSet resultSet) throws SQLException {
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        var gameResult = GameResult.valueOf(resultSet.getString("game_result"));
+        return new GameResultDto(createdAt, gameResult);
     }
 }
