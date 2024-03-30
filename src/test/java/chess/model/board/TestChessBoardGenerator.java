@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
-public class TestChessBoardGenerator implements ChessBoardGenerator {
+public class TestChessBoardGenerator {
     private static final int BOARD_SIZE = 64;
 
     private final List<Piece> pieces;
@@ -26,7 +26,6 @@ public class TestChessBoardGenerator implements ChessBoardGenerator {
         }
     }
 
-    @Override
     public Map<Position, Piece> create() {
         List<Rank> ranks = Arrays.asList(Rank.values());
         Collections.reverse(ranks);

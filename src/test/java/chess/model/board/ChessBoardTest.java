@@ -109,7 +109,7 @@ class ChessBoardTest {
         Position knightPosition = Position.of(File.A, Rank.ONE);
         Position targetPosition = Position.of(File.B, Rank.THREE);
 
-        ChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.KNIGHT_MOVEMENT_BOARD);
+        TestChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.KNIGHT_MOVEMENT_BOARD);
         ChessBoard customChessBoard = new ChessBoard(1, chessBoardGenerator.create());
 
         // when
@@ -134,7 +134,7 @@ class ChessBoardTest {
     @DisplayName("한 쪽이 이겨 한 King이 존재하지 않을 경우 게임이 종료된다.")
     void canContinueNotExistingKing() {
         // given
-        ChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.WHITE_FOOLS_MATE_LOSE);
+        TestChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.WHITE_FOOLS_MATE_LOSE);
         ChessBoard customChessBoard = new ChessBoard(1, chessBoardGenerator.create());
 
         // when
@@ -148,7 +148,7 @@ class ChessBoardTest {
     @DisplayName("게임 결과를 결정한다.")
     void determineGameResult() {
         // given
-        ChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.WHITE_FOOLS_MATE_LOSE);
+        TestChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.WHITE_FOOLS_MATE_LOSE);
         ChessBoard customChessBoard = new ChessBoard(1, chessBoardGenerator.create());
 
         // when
@@ -172,7 +172,7 @@ class ChessBoardTest {
     @DisplayName("이미 종료된 게임은 결과를 판단할 수 없다.")
     void determineGameResultInEndedGame() {
         // given
-        ChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.EMPTY_BOARD);
+        TestChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.EMPTY_BOARD);
         ChessBoard customChessBoard = new ChessBoard(1, chessBoardGenerator.create());
 
         // when & then

@@ -15,11 +15,10 @@ import static java.util.Collections.unmodifiableMap;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
-public class ChessBoardInitializer implements ChessBoardGenerator {
+public class ChessBoardInitializer {
     private static final int FIRST_BLANK_RANK_COORDINATE = 3;
     private static final int LAST_BLANK_RANK_COORDINATE = 6;
 
-    @Override
     public Map<Position, Piece> create() {
         Map<Position, Piece> board = new HashMap<>();
         board.putAll(createSpecialPieces(Side.BLACK));

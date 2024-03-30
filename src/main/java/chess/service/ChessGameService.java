@@ -1,7 +1,6 @@
 package chess.service;
 
 import chess.model.board.ChessBoard;
-import chess.model.board.ChessBoardGenerator;
 import chess.model.board.ChessBoardInitializer;
 import chess.model.board.Turn;
 import chess.model.evaluation.GameResult;
@@ -38,7 +37,7 @@ public class ChessGameService {
     }
 
     private ChessBoard createInitialChessBoard() {
-        ChessBoardGenerator chessBoardInitializer = new ChessBoardInitializer();
+        ChessBoardInitializer chessBoardInitializer = new ChessBoardInitializer();
         Map<Position, Piece> allPieces = chessBoardInitializer.create();
 
         long chessBoardId = chessBoardDao.save()
