@@ -7,55 +7,44 @@ import chess.service.ChessGameService;
 import chess.view.input.GameArguments;
 import chess.view.input.GameCommand;
 import chess.view.input.InputView;
-import chess.view.input.MoveArguments;
 import chess.view.output.OutputView;
 
 public class Run implements GameState {
     private final ChessBoard chessBoard;
     private final Turn turn;
-    private final ChessGameService chessGameService;
 
-    public Run(ChessBoard chessBoard, Turn turn, ChessGameService chessGameService) {
+    public Run(ChessBoard chessBoard, Turn turn) {
         this.chessBoard = chessBoard;
         this.turn = turn;
-        this.chessGameService = chessGameService;
     }
 
     public static Run initializeWithFirstTurn(ChessBoard chessBoard, ChessGameService chessGameService) {
         Turn initialTurn = chessGameService.createOrGetInitialTurn(chessBoard);
-        return new Run(chessBoard, initialTurn, chessGameService);
+        return new Run(chessBoard, initialTurn);
     }
 
     @Override
-    public GameState run(InputView inputView, OutputView outputView) {
+    public GameState run(InputView inputView, OutputView outputView, ChessGameService chessGameService) {
+        if (chessBoard.canNotProgress()) {
+            return new Summarize(chessBoard);
+        }
         GameArguments gameArguments = inputView.readMoveArguments();
+        return playByCommand(gameArguments, outputView);
+    }
+
+    private GameState playByCommand(GameArguments gameArguments, OutputView outputView) {
         GameCommand gameCommand = gameArguments.gameCommand();
         if (gameCommand.isEnd()) {
             return new End();
         }
-        if (gameCommand.isMove()) {
-            move(gameArguments.moveArguments(), outputView);
-            Turn nextTurn = chessGameService.saveNextTurn(chessBoard, turn);
-            return new Run(chessBoard, nextTurn, chessGameService);
-        }
         if (gameCommand.isTie()) {
-            chessGameService.saveGameResult(chessBoard);
-            return new End();
+            return new Summarize(chessBoard);
+        }
+        if (gameCommand.isMove()) {
+            return new Move(chessBoard, turn, gameArguments.moveArguments());
         }
         evaluateCurrentBoard(outputView);
         return this;
-    }
-
-    private void move(MoveArguments moveArguments, OutputView outputView) {
-        chessGameService.move(chessBoard, turn, moveArguments);
-        outputView.printChessBoard(chessBoard);
-        saveGameResult();
-    }
-
-    private void saveGameResult() {
-        if (!chessBoard.canContinueToMove()) {
-            chessGameService.saveGameResult(chessBoard);
-        }
     }
 
     private void evaluateCurrentBoard(OutputView outputView) {
@@ -65,6 +54,6 @@ public class Run implements GameState {
 
     @Override
     public boolean canContinue() {
-        return chessBoard.canContinueToMove();
+        return true;
     }
 }

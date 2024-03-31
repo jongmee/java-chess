@@ -1,18 +1,25 @@
 package chess.controller;
 
+import chess.model.board.ChessBoard;
 import chess.service.ChessGameService;
 import chess.view.input.InputView;
 import chess.view.output.OutputView;
 
-public class End implements GameState {
+public class Summarize implements GameState {
+    private final ChessBoard chessBoard;
+
+    public Summarize(ChessBoard chessBoard) {
+        this.chessBoard = chessBoard;
+    }
 
     @Override
     public GameState run(InputView inputView, OutputView outputView, ChessGameService chessGameService) {
-        throw new UnsupportedOperationException("게임이 종료되어 게임을 실행할 수 없습니다.");
+        chessGameService.saveGameResult(chessBoard);
+        return new End();
     }
 
     @Override
     public boolean canContinue() {
-        return false;
+        return true;
     }
 }

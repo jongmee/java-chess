@@ -17,13 +17,13 @@ public class ChessGame {
         GameState gameState = retryOnException(this::prepare);
         while (gameState.canContinue()) {
             GameState currentGameState = gameState;
-            gameState = retryOnException(() -> currentGameState.run(inputView, outputView));
+            gameState = retryOnException(() -> currentGameState.run(inputView, outputView, chessGameService));
         }
     }
 
     private GameState prepare() {
-        GameState prepare = new Prepare(chessGameService);
-        return prepare.run(inputView, outputView);
+        GameState prepare = new Prepare();
+        return prepare.run(inputView, outputView, chessGameService);
     }
 
     private <T> T retryOnException(Supplier<T> retryOperation) {
