@@ -7,6 +7,7 @@ public enum GameCommand {
     MOVE("move"),
     STATUS("status"),
     END("end"),
+    TIE("tie"),
     LOG("logs");
 
     private final String text;
@@ -24,7 +25,7 @@ public enum GameCommand {
     }
 
     private static boolean isInPreparation(GameCommand gameCommand) {
-        return gameCommand != MOVE && gameCommand != STATUS;
+        return gameCommand != MOVE && gameCommand != STATUS && gameCommand != TIE;
     }
 
     public static GameCommand createInProgress(String input) {
@@ -32,7 +33,7 @@ public enum GameCommand {
                 .filter(value -> value.text.equals(input))
                 .filter(GameCommand::isInProgress)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("move, status, end 중 하나를 입력해주세요."));
+                .orElseThrow(() -> new IllegalArgumentException("move, status, end, tie 중 하나를 입력해주세요."));
     }
 
     private static boolean isInProgress(GameCommand gameCommand) {
@@ -49,5 +50,9 @@ public enum GameCommand {
 
     public boolean isLogs() {
         return this == LOG;
+    }
+
+    public boolean isTie() {
+        return this == TIE;
     }
 }

@@ -38,6 +38,10 @@ public class Run implements GameState {
             Turn nextTurn = chessGameService.saveNextTurn(chessBoard, turn);
             return new Run(chessBoard, nextTurn, chessGameService);
         }
+        if (gameCommand.isTie()) {
+            chessGameService.saveGameResult(chessBoard);
+            return new End();
+        }
         evaluateCurrentBoard(outputView);
         return this;
     }
@@ -49,7 +53,7 @@ public class Run implements GameState {
     }
 
     private void saveGameResult() {
-        if (!chessBoard.canContinue()) {
+        if (!chessBoard.canContinueToMove()) {
             chessGameService.saveGameResult(chessBoard);
         }
     }
@@ -61,6 +65,6 @@ public class Run implements GameState {
 
     @Override
     public boolean canContinue() {
-        return chessBoard.canContinue();
+        return chessBoard.canContinueToMove();
     }
 }

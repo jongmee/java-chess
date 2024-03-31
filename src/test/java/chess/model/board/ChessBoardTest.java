@@ -121,10 +121,10 @@ class ChessBoardTest {
     }
 
     @Test
-    @DisplayName("체스보드에 각 진영의 King이 모두 존재하면 게임을 이어갈 수 있다.")
-    void canContinue() {
+    @DisplayName("체스보드에 각 진영의 King이 모두 존재하면 기물을 움직일 수 있다.")
+    void canContinueToMove() {
         // when
-        boolean result = defaltChessBoard.canContinue();
+        boolean result = defaltChessBoard.canContinueToMove();
 
         // then
         assertThat(result).isTrue();
@@ -132,13 +132,13 @@ class ChessBoardTest {
 
     @Test
     @DisplayName("한 쪽이 이겨 한 King이 존재하지 않을 경우 게임이 종료된다.")
-    void canContinueNotExistingKing() {
+    void canContinueToMoveNotExistingKing() {
         // given
         TestChessBoardGenerator chessBoardGenerator = new TestChessBoardGenerator(ChessBoardFixture.WHITE_FOOLS_MATE_LOSE);
         ChessBoard customChessBoard = new ChessBoard(1, chessBoardGenerator.create());
 
         // when
-        boolean result = customChessBoard.canContinue();
+        boolean result = customChessBoard.canContinueToMove();
 
         // then
         assertThat(result).isFalse();

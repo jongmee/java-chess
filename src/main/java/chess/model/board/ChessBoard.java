@@ -68,7 +68,7 @@ public class ChessBoard {
         board.put(targetPosition, sourcePiece);
     }
 
-    public boolean canContinue() {
+    public boolean canContinueToMove() {
         return Side.colors()
                 .stream()
                 .allMatch(side -> board.containsValue(King.from(side)));
