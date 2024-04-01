@@ -4,7 +4,7 @@ import chess.model.board.Turn;
 import chess.model.piece.Side;
 import chess.repository.DataBaseCleaner;
 import chess.repository.util.MySqlConnector;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ class TurnDaoTest {
     private final TurnDao turnDao = new TurnDao(MySqlConnector.TEST_CONNECTION);
     private final ChessBoardDao chessBoardDao = new ChessBoardDao(MySqlConnector.TEST_CONNECTION);
 
-    @BeforeEach
+    @AfterEach
     void setUp() {
         dataBaseCleaner.truncateTables();
     }
