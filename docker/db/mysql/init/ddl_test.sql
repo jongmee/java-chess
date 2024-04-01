@@ -11,7 +11,7 @@ CREATE TABLE chess_board
     created_at  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     game_result VARCHAR(15) NOT NULL,
     turn        VARCHAR(10) NOT NULL,
-    PRIMARY KEY (chess_board_id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE piece
