@@ -11,6 +11,8 @@ import chess.model.position.Position;
 import chess.repository.dao.ChessBoardDao;
 import chess.repository.dao.PieceDao;
 import chess.repository.dto.GameResultDto;
+import chess.repository.dto.LatestChessBoardDto;
+import chess.repository.dto.NewChessBoardDto;
 import chess.repository.exception.DataAccessException;
 import chess.repository.util.MySqlConnector;
 import chess.view.input.MoveArguments;
@@ -28,19 +30,20 @@ public class ChessGameService {
         this.pieceDao = new PieceDao(mySqlConnector);
     }
 
-    public ChessBoard createOrGetInitialChessBoard() {
-        Optional<ChessBoard> chessBoard = chessBoardDao.findLatest();
+    public LatestChessBoardDto createOrGetInitialChessBoard() {
+        Optional<LatestChessBoardDto> chessBoard = chessBoardDao.findLatest();
         return chessBoard.orElseGet(this::createInitialChessBoard);
     }
 
-    private ChessBoard createInitialChessBoard() {
+    private LatestChessBoardDto createInitialChessBoard() {
         ChessBoardInitializer chessBoardInitializer = new ChessBoardInitializer();
         Map<Position, Piece> allPieces = chessBoardInitializer.create();
 
-        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE))
+        NewChessBoardDto newChessBoardDto = chessBoardDao.save(Turn.from(Side.WHITE))
                 .orElseThrow(() -> new DataAccessException("체스 보드가 저장되지 못했습니다."));
-        pieceDao.saveAll(allPieces, chessBoardId);
-        return new ChessBoard(chessBoardId, allPieces);
+        pieceDao.saveAll(allPieces, newChessBoardDto.id());
+        ChessBoard chessBoard = new ChessBoard(newChessBoardDto.id(), allPieces);
+        return new LatestChessBoardDto(chessBoard, newChessBoardDto.turn());
     }
 
     public void move(ChessBoard chessBoard, Turn turn, MoveArguments moveArguments) {
@@ -49,12 +52,6 @@ public class ChessGameService {
         Piece sourcePiece = chessBoard.move(sourcePosition, targetPosition, turn);
         pieceDao.update(chessBoard.getId(), sourcePosition, Blank.INSTANCE);
         pieceDao.update(chessBoard.getId(), targetPosition, sourcePiece);
-    }
-
-    public Turn getInitialTurn(ChessBoard chessBoard) {
-        long chessBoardId = chessBoard.getId();
-        Optional<Turn> turn = chessBoardDao.findTurnByChessBoardId(chessBoardId);
-        return turn.orElseThrow(() -> new DataAccessException("id에 해당하는 체스 보드가 없습니다."));
     }
 
     public Turn saveNextTurn(ChessBoard chessBoard, Turn turn) {

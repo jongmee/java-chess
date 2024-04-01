@@ -1,7 +1,7 @@
 package chess.controller;
 
-import chess.model.board.ChessBoard;
 import chess.repository.dto.GameResultDto;
+import chess.repository.dto.LatestChessBoardDto;
 import chess.service.ChessGameService;
 import chess.view.input.GameCommand;
 import chess.view.input.InputView;
@@ -21,9 +21,9 @@ public class Prepare implements GameState {
             showGameResults(outputView, chessGameService);
             return new End();
         }
-        ChessBoard chessBoard = chessGameService.createOrGetInitialChessBoard();
-        outputView.printChessBoard(chessBoard);
-        return Run.initializeWithFirstTurn(chessBoard, chessGameService);
+        LatestChessBoardDto latestChessBoardDto = chessGameService.createOrGetInitialChessBoard();
+        outputView.printChessBoard(latestChessBoardDto.chessBoard());
+        return new Run(latestChessBoardDto.chessBoard(), latestChessBoardDto.turn());
     }
 
     private GameCommand getFirstGameCommand(InputView inputView) {

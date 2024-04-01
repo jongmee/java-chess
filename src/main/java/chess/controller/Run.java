@@ -18,11 +18,6 @@ public class Run implements GameState {
         this.turn = turn;
     }
 
-    public static Run initializeWithFirstTurn(ChessBoard chessBoard, ChessGameService chessGameService) {
-        Turn initialTurn = chessGameService.getInitialTurn(chessBoard);
-        return new Run(chessBoard, initialTurn);
-    }
-
     @Override
     public GameState run(InputView inputView, OutputView outputView, ChessGameService chessGameService) {
         if (chessBoard.canNotProgress()) {

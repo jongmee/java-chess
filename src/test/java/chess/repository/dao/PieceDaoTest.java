@@ -10,6 +10,7 @@ import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
 import chess.repository.DataBaseCleaner;
+import chess.repository.dto.NewChessBoardDto;
 import chess.repository.util.MySqlConnector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,13 +35,13 @@ class PieceDaoTest {
     void saveAll() {
         // given
         Map<Position, Piece> initialPieces = new ChessBoardInitializer().create();
-        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        NewChessBoardDto newChessBoardDto = chessBoardDao.save(Turn.from(Side.WHITE)).get();
 
         // when
-        pieceDao.saveAll(initialPieces, chessBoardId);
+        pieceDao.saveAll(initialPieces, newChessBoardDto.id());
 
         // then
-        ChessBoard chessBoard = chessBoardDao.findLatest().get();
+        ChessBoard chessBoard = chessBoardDao.findLatest().get().chessBoard();
         assertThat(chessBoard.getBoard()).hasSize(64);
     }
 
@@ -48,18 +49,18 @@ class PieceDaoTest {
     @DisplayName("특정 위치의 기물을 교체한다.")
     void update() {
         // given
-        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        NewChessBoardDto newChessBoardDto = chessBoardDao.save(Turn.from(Side.WHITE)).get();
         Map<Position, Piece> initialPieces = new ChessBoardInitializer().create();
-        pieceDao.saveAll(initialPieces, chessBoardId);
+        pieceDao.saveAll(initialPieces, newChessBoardDto.id());
 
         Position position = Position.of(File.A, Rank.FIVE);
         Piece newPiece = Knight.from(Side.WHITE);
 
         // when
-        pieceDao.update(chessBoardId, position, newPiece);
+        pieceDao.update(newChessBoardDto.id(), position, newPiece);
 
         // then
-        ChessBoard chessBoard = chessBoardDao.findLatest().get();
+        ChessBoard chessBoard = chessBoardDao.findLatest().get().chessBoard();
         assertThat(chessBoard.getBoard()).containsEntry(position, newPiece);
     }
 }

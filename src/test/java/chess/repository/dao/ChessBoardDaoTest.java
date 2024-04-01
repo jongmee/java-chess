@@ -1,12 +1,13 @@
 package chess.repository.dao;
 
-import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
 import chess.model.board.Turn;
 import chess.model.evaluation.GameResult;
 import chess.model.piece.Side;
 import chess.repository.DataBaseCleaner;
 import chess.repository.dto.GameResultDto;
+import chess.repository.dto.LatestChessBoardDto;
+import chess.repository.dto.NewChessBoardDto;
 import chess.repository.util.MySqlConnector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,17 +33,22 @@ class ChessBoardDaoTest {
     @DisplayName("새로운 체스 보드를 저장한다.")
     void save() {
         // when
-        Optional<Long> chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE));
+        Optional<NewChessBoardDto> newChessBoardDto = chessBoardDao.save(Turn.from(Side.WHITE));
 
         // then
-        assertThat(chessBoardId).isNotEmpty();
+        assertAll(
+                () -> assertThat(newChessBoardDto).isNotEmpty(),
+                () ->  assertThat(newChessBoardDto.get().id()).isSameAs(1L),
+                () -> assertThat(newChessBoardDto.get().turn()).isEqualTo(Turn.from(Side.WHITE))
+        );
     }
 
     @Test
     @DisplayName("체스 보드의 게임 차례를 수정한다.")
     void updateTurn() {
         // given
-        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        NewChessBoardDto newChessBoardDto = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        long chessBoardId = newChessBoardDto.id();
 
         // when
         chessBoardDao.updateTurn(chessBoardId, Turn.from(Side.BLACK));
@@ -57,18 +63,20 @@ class ChessBoardDaoTest {
 
     @Test
     @DisplayName("가장 최근 저장된 체스 보드를 조회한다.")
-    void findLastId() {
+    void findLatest() {
         // given
-        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        NewChessBoardDto newChessBoardDto = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        long chessBoardId = newChessBoardDto.id();
         pieceDao.saveAll(new ChessBoardInitializer().create(), chessBoardId);
 
         // when
-        Optional<ChessBoard> chessBoard = chessBoardDao.findLatest();
+        Optional<LatestChessBoardDto> initialChessBoardDto = chessBoardDao.findLatest();
 
         // then
         assertAll(
-                () -> assertThat(chessBoard).isNotEmpty(),
-                () -> assertThat(chessBoard.get().getBoard()).hasSize(64)
+                () -> assertThat(initialChessBoardDto).isNotEmpty(),
+                () -> assertThat(initialChessBoardDto.get().turn()).isNotNull(),
+                () -> assertThat(initialChessBoardDto.get().chessBoard().getBoard()).hasSize(64)
         );
     }
 
@@ -76,7 +84,8 @@ class ChessBoardDaoTest {
     @DisplayName("체스 보드의 게임 결과를 저장한다")
     void updateGameResult() {
         // given
-        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        NewChessBoardDto newChessBoardDto = chessBoardDao.save(Turn.from(Side.WHITE)).get();
+        long chessBoardId = newChessBoardDto.id();
         pieceDao.saveAll(new ChessBoardInitializer().create(), chessBoardId);
 
         // when

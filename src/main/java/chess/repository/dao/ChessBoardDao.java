@@ -9,6 +9,8 @@ import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
 import chess.repository.dto.GameResultDto;
+import chess.repository.dto.LatestChessBoardDto;
+import chess.repository.dto.NewChessBoardDto;
 import chess.repository.util.MySqlConnector;
 import chess.repository.util.ParameterBinder;
 import chess.repository.util.ResultSetMapper;
@@ -25,16 +27,17 @@ public class ChessBoardDao {
         this.statementExecutor = new StatementExecutor(mySqlConnector);
     }
 
-    public Optional<Long> save(Turn turn) {
+    public Optional<NewChessBoardDto> save(Turn turn) {
         var query = "INSERT INTO chess_board(game_result, turn) VALUES(?, ?)";
         String[] keys = {"chess_board_id"};
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
             preparedStatement.setString(2, turn.getSide().name());
         };
-        ResultSetMapper<Optional<Long>> resultSetMapper = resultSet -> {
+        ResultSetMapper<Optional<NewChessBoardDto>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
-                return Optional.of(resultSet.getLong(1));
+                var id = resultSet.getLong(1);
+                return Optional.of(new NewChessBoardDto(id, turn));
             }
             return Optional.empty();
         };
@@ -64,15 +67,15 @@ public class ChessBoardDao {
         statementExecutor.executeUpdate(query, parameterBinder);
     }
 
-    public Optional<ChessBoard> findLatest() {
+    public Optional<LatestChessBoardDto> findLatest() {
         var query = """
-                 SELECT p.* FROM chess_board cb
+                 SELECT p.*, cb.turn FROM chess_board cb
                  JOIN piece p ON p.chess_board_id = cb.chess_board_id
                  WHERE cb.created_at = (SELECT MAX(created_at) FROM chess_board) AND cb.game_result = ?
                 """;
         ParameterBinder parameterBinder = preparedStatement ->
                 preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
-        ResultSetMapper<Optional<ChessBoard>> resultSetMapper = resultSet -> {
+        ResultSetMapper<Optional<LatestChessBoardDto>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
                 return convertChessBoard(resultSet);
             }
@@ -81,15 +84,23 @@ public class ChessBoardDao {
         return statementExecutor.executeQuery(query, parameterBinder, resultSetMapper);
     }
 
-    private Optional<ChessBoard> convertChessBoard(ResultSet resultSet) throws SQLException {
+    private Optional<LatestChessBoardDto> convertChessBoard(ResultSet resultSet) throws SQLException {
         Map<Position, Piece> board = new HashMap<>();
         long chessBoardId = resultSet.getLong("chess_board_id");
+        Turn turn = convertTurn(resultSet);
         do {
             Position position = convertPosition(resultSet);
             Piece piece = convertPiece(resultSet);
             board.put(position, piece);
         } while (resultSet.next());
-        return Optional.of(new ChessBoard(chessBoardId, board));
+        ChessBoard chessBoard = new ChessBoard(chessBoardId, board);
+        return Optional.of(new LatestChessBoardDto(chessBoard, turn));
+    }
+
+    private Turn convertTurn(ResultSet resultSet) throws SQLException {
+        var turnAttribute = resultSet.getString("turn");
+        Side side = Side.valueOf(turnAttribute);
+        return Turn.from(side);
     }
 
     private Position convertPosition(ResultSet resultSet) throws SQLException {
