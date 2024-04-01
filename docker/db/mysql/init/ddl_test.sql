@@ -21,6 +21,6 @@ CREATE TABLE piece
     type           VARCHAR(10) NOT NULL,
     chess_board_id BIGINT      NOT NULL,
     side           VARCHAR(10) NOT NULL,
-    FOREIGN KEY (`chess_board_id`) REFERENCES `chess_board` (`chess_board_id`),
+    FOREIGN KEY (`chess_board_id`) REFERENCES `chess_board` (`id`),
     PRIMARY KEY (file, `rank`, chess_board_id)
 );
