@@ -49,7 +49,7 @@ class ChessBoardDaoTest {
         // then
         assertAll(
                 () -> assertThat(chessBoard).isNotEmpty(),
-                () -> chessBoard.ifPresent(actual -> assertThat(actual.getBoard()).hasSize(64))
+                () -> assertThat(chessBoard.get().getBoard()).hasSize(64)
         );
     }
 
