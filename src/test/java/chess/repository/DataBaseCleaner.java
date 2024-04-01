@@ -10,7 +10,6 @@ public class DataBaseCleaner {
             "set foreign_key_checks = 0",
             "truncate chess_board",
             "truncate piece",
-            "truncate turn",
             "set foreign_key_checks = 1"
     );
 

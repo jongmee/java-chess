@@ -2,6 +2,7 @@ package chess.repository.dao;
 
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
+import chess.model.board.Turn;
 import chess.model.piece.Knight;
 import chess.model.piece.Piece;
 import chess.model.piece.Side;
@@ -33,7 +34,7 @@ class PieceDaoTest {
     void saveAll() {
         // given
         Map<Position, Piece> initialPieces = new ChessBoardInitializer().create();
-        long chessBoardId = chessBoardDao.save().get();
+        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
 
         // when
         pieceDao.saveAll(initialPieces, chessBoardId);
@@ -47,7 +48,7 @@ class PieceDaoTest {
     @DisplayName("특정 위치의 기물을 교체한다.")
     void update() {
         // given
-        long chessBoardId = chessBoardDao.save().get();
+        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
         Map<Position, Piece> initialPieces = new ChessBoardInitializer().create();
         pieceDao.saveAll(initialPieces, chessBoardId);
 

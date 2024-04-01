@@ -1,8 +1,10 @@
 package chess.repository.dao;
 
 import chess.model.board.ChessBoard;
+import chess.model.board.Turn;
 import chess.model.evaluation.GameResult;
 import chess.model.piece.Piece;
+import chess.model.piece.Side;
 import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
@@ -23,11 +25,13 @@ public class ChessBoardDao {
         this.statementExecutor = new StatementExecutor(mySqlConnector);
     }
 
-    public Optional<Long> save() {
-        var query = "INSERT INTO chess_board(game_result) VALUES(?)";
+    public Optional<Long> save(Turn turn) {
+        var query = "INSERT INTO chess_board(game_result, turn) VALUES(?, ?)";
         String[] keys = {"chess_board_id"};
-        ParameterBinder parameterBinder = preparedStatement ->
-                preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
+        ParameterBinder parameterBinder = preparedStatement -> {
+            preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
+            preparedStatement.setString(2, turn.getSide().name());
+        };
         ResultSetMapper<Optional<Long>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
                 return Optional.of(resultSet.getLong(1));
@@ -35,6 +39,29 @@ public class ChessBoardDao {
             return Optional.empty();
         };
         return statementExecutor.executeUpdate(query, keys, parameterBinder, resultSetMapper);
+    }
+
+    public Optional<Turn> findTurnByChessBoardId(long chessBoardId) {
+        var query = "SELECT turn FROM chess_board WHERE chess_board_id = ?";
+        ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
+        ResultSetMapper<Optional<Turn>> resultSetMapper = resultSet -> {
+            if (resultSet.next()) {
+                var turnAttribute = resultSet.getString("turn");
+                Turn turn = Turn.from(Side.valueOf(turnAttribute));
+                return Optional.of(turn);
+            }
+            return Optional.empty();
+        };
+        return statementExecutor.executeQuery(query, parameterBinder, resultSetMapper);
+    }
+
+    public void updateTurn(long chessBoardId, Turn turn) {
+        var query = "UPDATE chess_board SET turn = ? WHERE chess_board_id = ?";
+        ParameterBinder parameterBinder = preparedStatement -> {
+            preparedStatement.setString(1, turn.getSide().name());
+            preparedStatement.setLong(2, chessBoardId);
+        };
+        statementExecutor.executeUpdate(query, parameterBinder);
     }
 
     public Optional<ChessBoard> findLatest() {

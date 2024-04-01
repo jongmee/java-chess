@@ -12,7 +12,6 @@ import chess.model.position.Rank;
 import chess.repository.DataBaseCleaner;
 import chess.repository.dao.ChessBoardDao;
 import chess.repository.dao.PieceDao;
-import chess.repository.dao.TurnDao;
 import chess.repository.dto.GameResultDto;
 import chess.repository.util.MySqlConnector;
 import chess.view.input.MoveArguments;
@@ -30,7 +29,6 @@ class ChessGameServiceTest {
     private final ChessGameService chessGameService = new ChessGameService(MySqlConnector.TEST_CONNECTION);
     private final ChessBoardDao chessBoardDao = new ChessBoardDao(MySqlConnector.TEST_CONNECTION);
     private final PieceDao pieceDao = new PieceDao(MySqlConnector.TEST_CONNECTION);
-    private final TurnDao turnDao = new TurnDao(MySqlConnector.TEST_CONNECTION);
 
     @BeforeEach
     void setUp() {
@@ -83,28 +81,14 @@ class ChessGameServiceTest {
     }
 
     @Test
-    @DisplayName("체스판의 차례가 생성되지 않았다면 WHITE 차례를 생성한다.")
-    void createInitialTurn() {
-        // given
-        ChessBoard chessBoard = createTestChessBoard();
-
-        // when
-        Turn turn = chessGameService.createOrGetInitialTurn(chessBoard);
-
-        // then
-        assertThat(turn).isEqualTo(Turn.from(Side.WHITE));
-    }
-
-    @Test
-    @DisplayName("체스판의 순서가 생성되었다면 조회한다.")
+    @DisplayName("초기 체스판의 순서를 조회한다.")
     void getInitialTurn() {
         // given
         ChessBoard chessBoard = createTestChessBoard();
         Turn initialTurn = Turn.from(Side.WHITE);
-        turnDao.save(chessBoard.getId(), initialTurn);
 
         // when
-        Turn turn = chessGameService.createOrGetInitialTurn(chessBoard);
+        Turn turn = chessGameService.getInitialTurn(chessBoard);
 
         // then
         assertThat(turn).isEqualTo(Turn.from(Side.WHITE));
@@ -129,7 +113,7 @@ class ChessGameServiceTest {
     void saveGameResult() {
         // given
         Map<Position, Piece> allPieces = new TestChessBoardGenerator(ChessBoardFixture.WHITE_FOOLS_MATE_LOSE).create();
-        long chessBoardId = chessBoardDao.save().get();
+        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
         pieceDao.saveAll(allPieces, chessBoardId);
 
         ChessBoard chessBoard = new ChessBoard(chessBoardId, allPieces);
@@ -147,7 +131,7 @@ class ChessGameServiceTest {
     private ChessBoard createTestChessBoard() {
         ChessBoardInitializer chessBoardInitializer = new ChessBoardInitializer();
         Map<Position, Piece> allPieces = chessBoardInitializer.create();
-        long chessBoardId = chessBoardDao.save().get();
+        long chessBoardId = chessBoardDao.save(Turn.from(Side.WHITE)).get();
         pieceDao.saveAll(allPieces, chessBoardId);
         return new ChessBoard(chessBoardId, allPieces);
     }
