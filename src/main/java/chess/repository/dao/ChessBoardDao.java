@@ -29,7 +29,7 @@ public class ChessBoardDao {
 
     public Optional<NewChessBoardDto> save(Turn turn) {
         var query = "INSERT INTO chess_board(game_result, turn) VALUES(?, ?)";
-        String[] keys = {"chess_board_id"};
+        String[] keys = {"id"};
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, GameResult.IN_PROGRESS.name());
             preparedStatement.setString(2, turn.getSide().name());
@@ -45,7 +45,7 @@ public class ChessBoardDao {
     }
 
     public Optional<Turn> findTurnByChessBoardId(long chessBoardId) {
-        var query = "SELECT turn FROM chess_board WHERE chess_board_id = ?";
+        var query = "SELECT turn FROM chess_board WHERE id = ?";
         ParameterBinder parameterBinder = preparedStatement -> preparedStatement.setLong(1, chessBoardId);
         ResultSetMapper<Optional<Turn>> resultSetMapper = resultSet -> {
             if (resultSet.next()) {
@@ -59,7 +59,7 @@ public class ChessBoardDao {
     }
 
     public void updateTurn(long chessBoardId, Turn turn) {
-        var query = "UPDATE chess_board SET turn = ? WHERE chess_board_id = ?";
+        var query = "UPDATE chess_board SET turn = ? WHERE id = ?";
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, turn.getSide().name());
             preparedStatement.setLong(2, chessBoardId);
@@ -70,7 +70,7 @@ public class ChessBoardDao {
     public Optional<LatestChessBoardDto> findLatest() {
         var query = """
                  SELECT p.*, cb.turn FROM chess_board cb
-                 JOIN piece p ON p.chess_board_id = cb.chess_board_id
+                 JOIN piece p ON p.chess_board_id = cb.id
                  WHERE cb.created_at = (SELECT MAX(created_at) FROM chess_board) AND cb.game_result = ?
                 """;
         ParameterBinder parameterBinder = preparedStatement ->
@@ -116,7 +116,7 @@ public class ChessBoardDao {
     }
 
     public void updateGameResult(long chessBoardId, GameResult gameResult) {
-        var query = "UPDATE chess_board SET game_result = ? WHERE chess_board_id = ?";
+        var query = "UPDATE chess_board SET game_result = ? WHERE id = ?";
         ParameterBinder parameterBinder = preparedStatement -> {
             preparedStatement.setString(1, gameResult.name());
             preparedStatement.setLong(2, chessBoardId);
