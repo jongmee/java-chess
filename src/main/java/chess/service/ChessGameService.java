@@ -13,7 +13,7 @@ import chess.repository.dao.PieceDao;
 import chess.repository.dao.TurnDao;
 import chess.repository.dto.GameResultDto;
 import chess.repository.exception.DataAccessException;
-import chess.repository.utility.MySqlConnector;
+import chess.repository.util.MySqlConnector;
 import chess.view.input.MoveArguments;
 
 import java.util.List;

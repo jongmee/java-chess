@@ -3,7 +3,7 @@ package chess.repository.dao;
 import chess.model.board.Turn;
 import chess.model.piece.Side;
 import chess.repository.DataBaseCleaner;
-import chess.repository.utility.MySqlConnector;
+import chess.repository.util.MySqlConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

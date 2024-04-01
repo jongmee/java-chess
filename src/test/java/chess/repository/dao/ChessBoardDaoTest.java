@@ -5,7 +5,7 @@ import chess.model.board.ChessBoardInitializer;
 import chess.model.evaluation.GameResult;
 import chess.repository.DataBaseCleaner;
 import chess.repository.dto.GameResultDto;
-import chess.repository.utility.MySqlConnector;
+import chess.repository.util.MySqlConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

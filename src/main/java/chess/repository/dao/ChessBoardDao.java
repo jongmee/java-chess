@@ -7,10 +7,10 @@ import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
 import chess.repository.dto.GameResultDto;
-import chess.repository.utility.MySqlConnector;
-import chess.repository.utility.ParameterBinder;
-import chess.repository.utility.ResultSetMapper;
-import chess.repository.utility.StatementExecutor;
+import chess.repository.util.MySqlConnector;
+import chess.repository.util.ParameterBinder;
+import chess.repository.util.ResultSetMapper;
+import chess.repository.util.StatementExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

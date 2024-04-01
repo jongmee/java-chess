@@ -1,4 +1,4 @@
-package chess.repository.utility;
+package chess.repository.util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

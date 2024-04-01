@@ -1,4 +1,4 @@
-package chess.repository.utility;
+package chess.repository.util;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
