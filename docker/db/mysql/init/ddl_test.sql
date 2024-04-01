@@ -7,7 +7,7 @@ USE chess_test;
 
 CREATE TABLE chess_board
 (
-    chess_board_id BIGINT      NOT NULL AUTO_INCREMENT,
+    id BIGINT      NOT NULL AUTO_INCREMENT,
     created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     game_result    VARCHAR(15) NOT NULL,
     turn           VARCHAR(10) NOT NULL,
