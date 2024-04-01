@@ -11,7 +11,7 @@ import chess.model.position.Position;
 import chess.model.position.Rank;
 import chess.repository.DataBaseCleaner;
 import chess.repository.dto.NewChessBoardDto;
-import chess.repository.util.MySqlConnector;
+import chess.repository.util.TestMySqlConnector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,8 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final PieceDao pieceDao = new PieceDao(MySqlConnector.TEST_CONNECTION);
-    private final ChessBoardDao chessBoardDao = new ChessBoardDao(MySqlConnector.TEST_CONNECTION);
+    private final PieceDao pieceDao = new PieceDao(TestMySqlConnector.INSTANCE);
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao(TestMySqlConnector.INSTANCE);
 
     @AfterEach
     void setUp() {

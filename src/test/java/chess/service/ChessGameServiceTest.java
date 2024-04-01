@@ -13,7 +13,7 @@ import chess.repository.DataBaseCleaner;
 import chess.repository.dao.ChessBoardDao;
 import chess.repository.dao.PieceDao;
 import chess.repository.dto.GameResultDto;
-import chess.repository.util.MySqlConnector;
+import chess.repository.util.TestMySqlConnector;
 import chess.view.input.MoveArguments;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,9 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ChessGameServiceTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final ChessGameService chessGameService = new ChessGameService(MySqlConnector.TEST_CONNECTION);
-    private final ChessBoardDao chessBoardDao = new ChessBoardDao(MySqlConnector.TEST_CONNECTION);
-    private final PieceDao pieceDao = new PieceDao(MySqlConnector.TEST_CONNECTION);
+    private final ChessGameService chessGameService = new ChessGameService(TestMySqlConnector.INSTANCE);
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao(TestMySqlConnector.INSTANCE);
+    private final PieceDao pieceDao = new PieceDao(TestMySqlConnector.INSTANCE);
 
     @BeforeEach
     void setUp() {

@@ -8,7 +8,7 @@ import chess.repository.DataBaseCleaner;
 import chess.repository.dto.GameResultDto;
 import chess.repository.dto.LatestChessBoardDto;
 import chess.repository.dto.NewChessBoardDto;
-import chess.repository.util.MySqlConnector;
+import chess.repository.util.TestMySqlConnector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ChessBoardDaoTest {
     private final DataBaseCleaner dataBaseCleaner = new DataBaseCleaner();
-    private final ChessBoardDao chessBoardDao = new ChessBoardDao(MySqlConnector.TEST_CONNECTION);
-    private final PieceDao pieceDao = new PieceDao(MySqlConnector.TEST_CONNECTION);
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao(TestMySqlConnector.INSTANCE);
+    private final PieceDao pieceDao = new PieceDao(TestMySqlConnector.INSTANCE);
 
     @AfterEach
     void setUp() {
@@ -38,7 +38,7 @@ class ChessBoardDaoTest {
         // then
         assertAll(
                 () -> assertThat(newChessBoardDto).isNotEmpty(),
-                () ->  assertThat(newChessBoardDto.get().id()).isSameAs(1L),
+                () -> assertThat(newChessBoardDto.get().id()).isSameAs(1L),
                 () -> assertThat(newChessBoardDto.get().turn()).isEqualTo(Turn.from(Side.WHITE))
         );
     }

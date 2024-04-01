@@ -1,6 +1,7 @@
 package chess.repository;
 
 import chess.repository.util.MySqlConnector;
+import chess.repository.util.TestMySqlConnector;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,7 +14,7 @@ public class DataBaseCleaner {
             "set foreign_key_checks = 1"
     );
 
-    private final MySqlConnector mySqlConnector = MySqlConnector.TEST_CONNECTION;
+    private final MySqlConnector mySqlConnector = TestMySqlConnector.INSTANCE;
 
     public void truncateTables() {
         try (var connection = mySqlConnector.getConnection();

@@ -13,7 +13,7 @@ class MySqlConnectorTest {
     @DisplayName("MySQL Connection을 얻는다.")
     void getConnection() {
         // given
-        MySqlConnector connection = MySqlConnector.PRODUCT_CONNECTION;
+        MySqlConnector connection = new ProductMySqlConnector();
 
         // when
         Connection connected = connection.getConnection();

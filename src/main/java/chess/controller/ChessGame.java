@@ -1,6 +1,7 @@
 package chess.controller;
 
 import chess.repository.util.MySqlConnector;
+import chess.repository.util.ProductMySqlConnector;
 import chess.service.ChessGameService;
 import chess.view.input.InputView;
 import chess.view.output.OutputView;
@@ -11,7 +12,7 @@ import java.util.function.Supplier;
 public class ChessGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final ChessGameService chessGameService = new ChessGameService(MySqlConnector.PRODUCT_CONNECTION);
+    private final ChessGameService chessGameService = new ChessGameService(new ProductMySqlConnector());
 
     public void start() {
         GameState gameState = retryOnException(this::prepare);
