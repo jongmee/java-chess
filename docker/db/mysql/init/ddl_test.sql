@@ -1,6 +1,3 @@
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
-FLUSH PRIVILEGES;
-
 CREATE DATABASE IF NOT EXISTS `chess_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE chess_test;
