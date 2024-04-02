@@ -10,6 +10,11 @@ docker-compose -p chess up -d
 docker-compose -p chess down
 ```
 
+## DB 스키마 다이어그램
+<div align = "center">
+  <img width="496" alt="스크린샷 2024-04-02 오후 2 35 45" src="https://github.com/jongmee/java-chess/assets/101439796/369730ad-ed12-4101-8bc4-b20eac01869a">
+</div>
+
 ## 규칙 정리
 
 - Rank: 체스판의 가로 줄 (1 ~ 8)
