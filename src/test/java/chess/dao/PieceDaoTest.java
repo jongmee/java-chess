@@ -1,5 +1,7 @@
-package chess.repository.dao;
+package chess.dao;
 
+import chess.dao.dto.NewChessBoardDto;
+import chess.dao.util.TestMySqlConnector;
 import chess.model.board.ChessBoard;
 import chess.model.board.ChessBoardInitializer;
 import chess.model.board.Turn;
@@ -9,9 +11,6 @@ import chess.model.piece.Side;
 import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
-import chess.repository.DataBaseCleaner;
-import chess.repository.dto.NewChessBoardDto;
-import chess.repository.util.TestMySqlConnector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

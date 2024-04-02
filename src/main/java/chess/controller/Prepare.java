@@ -1,7 +1,7 @@
 package chess.controller;
 
-import chess.repository.dto.GameResultDto;
-import chess.repository.dto.LatestChessBoardDto;
+import chess.dao.dto.GameResultDto;
+import chess.dao.dto.LatestChessBoardDto;
 import chess.service.ChessGameService;
 import chess.view.input.GameCommand;
 import chess.view.input.InputView;

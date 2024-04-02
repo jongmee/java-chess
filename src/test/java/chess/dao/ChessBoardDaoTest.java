@@ -1,14 +1,13 @@
-package chess.repository.dao;
+package chess.dao;
 
+import chess.dao.dto.GameResultDto;
+import chess.dao.dto.LatestChessBoardDto;
+import chess.dao.dto.NewChessBoardDto;
+import chess.dao.util.TestMySqlConnector;
 import chess.model.board.ChessBoardInitializer;
 import chess.model.board.Turn;
 import chess.model.evaluation.GameResult;
 import chess.model.piece.Side;
-import chess.repository.DataBaseCleaner;
-import chess.repository.dto.GameResultDto;
-import chess.repository.dto.LatestChessBoardDto;
-import chess.repository.dto.NewChessBoardDto;
-import chess.repository.util.TestMySqlConnector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
-package chess.repository.dao;
+package chess.dao;
 
 import chess.model.piece.*;
-import chess.repository.exception.DataAccessException;
+import chess.dao.exception.DataAccessException;
 
 import java.util.Arrays;
 

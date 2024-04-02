@@ -1,4 +1,4 @@
-package chess.repository.util;
+package chess.dao.util;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

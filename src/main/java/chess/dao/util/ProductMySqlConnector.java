@@ -1,4 +1,4 @@
-package chess.repository.util;
+package chess.dao.util;
 
 public class ProductMySqlConnector extends MySqlConnector {
     public ProductMySqlConnector() {

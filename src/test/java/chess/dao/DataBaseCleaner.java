@@ -1,7 +1,7 @@
-package chess.repository;
+package chess.dao;
 
-import chess.repository.util.MySqlConnector;
-import chess.repository.util.TestMySqlConnector;
+import chess.dao.util.MySqlConnector;
+import chess.dao.util.TestMySqlConnector;
 
 import java.sql.SQLException;
 import java.util.List;

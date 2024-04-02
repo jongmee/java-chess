@@ -7,7 +7,7 @@ import chess.model.piece.Side;
 import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
-import chess.repository.dto.GameResultDto;
+import chess.dao.dto.GameResultDto;
 
 import java.util.*;
 import java.util.stream.Collectors;

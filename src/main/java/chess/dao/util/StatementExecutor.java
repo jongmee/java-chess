@@ -1,6 +1,6 @@
-package chess.repository.util;
+package chess.dao.util;
 
-import chess.repository.exception.DataAccessException;
+import chess.dao.exception.DataAccessException;
 
 import java.sql.SQLException;
 

@@ -1,10 +1,10 @@
-package chess.repository.dao;
+package chess.dao;
 
 import chess.model.piece.Piece;
 import chess.model.position.Position;
-import chess.repository.util.MySqlConnector;
-import chess.repository.util.ParameterBinder;
-import chess.repository.util.StatementExecutor;
+import chess.dao.util.MySqlConnector;
+import chess.dao.util.ParameterBinder;
+import chess.dao.util.StatementExecutor;
 
 import java.util.Map;
 

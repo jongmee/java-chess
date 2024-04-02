@@ -1,4 +1,4 @@
-package chess.repository.dto;
+package chess.dao.dto;
 
 import chess.model.board.Turn;
 

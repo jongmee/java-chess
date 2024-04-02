@@ -1,5 +1,12 @@
-package chess.repository.dao;
+package chess.dao;
 
+import chess.dao.dto.GameResultDto;
+import chess.dao.dto.LatestChessBoardDto;
+import chess.dao.dto.NewChessBoardDto;
+import chess.dao.util.MySqlConnector;
+import chess.dao.util.ParameterBinder;
+import chess.dao.util.ResultSetMapper;
+import chess.dao.util.StatementExecutor;
 import chess.model.board.ChessBoard;
 import chess.model.board.Turn;
 import chess.model.evaluation.GameResult;
@@ -8,13 +15,6 @@ import chess.model.piece.Side;
 import chess.model.position.File;
 import chess.model.position.Position;
 import chess.model.position.Rank;
-import chess.repository.dto.GameResultDto;
-import chess.repository.dto.LatestChessBoardDto;
-import chess.repository.dto.NewChessBoardDto;
-import chess.repository.util.MySqlConnector;
-import chess.repository.util.ParameterBinder;
-import chess.repository.util.ResultSetMapper;
-import chess.repository.util.StatementExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

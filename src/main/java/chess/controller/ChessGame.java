@@ -1,7 +1,6 @@
 package chess.controller;
 
-import chess.repository.util.MySqlConnector;
-import chess.repository.util.ProductMySqlConnector;
+import chess.dao.util.ProductMySqlConnector;
 import chess.service.ChessGameService;
 import chess.view.input.InputView;
 import chess.view.output.OutputView;
